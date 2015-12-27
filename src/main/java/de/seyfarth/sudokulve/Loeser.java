@@ -2,32 +2,35 @@ package de.seyfarth.sudokulve;
 
 import java.util.ArrayList;
 import de.seyfarth.sudokulve.exceptions.*;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Loeser {
+	private static final Logger log = Logger.getLogger("Loeser");
+	
 	Feld aktFeld;
 	Matrix sudoku;
 	ArrayList<Feld> geloesteFelder;
 
 	public Loeser(Matrix matrix) {
 		sudoku = matrix;
-		geloesteFelder = new ArrayList<Feld>();
+		geloesteFelder = new ArrayList<>();
 	}
 
 	void fuelleMatrix() throws KeineLoesungException {
-		for (Feld aktFeld : sudoku.matrix()) {
-			if (aktFeld.hatGenauEineZiffer()) {
+		for (Feld editedFeld : sudoku.matrix()) {
+			if (editedFeld.hatGenauEineZiffer()) {
 				continue;
 			}
-			if (aktFeld.istLeer()) {
-				aktFeld.fuelleMitAllenZiffern(sudoku.getDimension());
-				leereAusSektoren(aktFeld);
+			if (editedFeld.istLeer()) {
+				editedFeld.fuelleMitAllenZiffern(sudoku.getDimension());
+				leereAusSektoren(editedFeld);
 			}
-			if (aktFeld.istLeer()) {
+			if (editedFeld.istLeer()) {
 				throw new KeineLoesungException();
 			}
-			if (aktFeld.hatGenauEineZiffer()) {
-				geloesteFelder.add(aktFeld);
+			if (editedFeld.hatGenauEineZiffer()) {
+				geloesteFelder.add(editedFeld);
 			}
 		}
 	}
@@ -68,13 +71,9 @@ public class Loeser {
 					ziffer = feld.holeEinzigenWert();
 					aktFeld.entferne(ziffer);
 				} catch (MehrAlsEineZifferException e) {
-					// Sollte niemals auftreten, da vorher überprüft wurde, ob
-					// eine L�sung drin ist
-					e.printStackTrace();
+					log.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
 				} catch (KeineZifferException e) {
-					// Sollte niemals auftreten, da vorher überprüft wurde, ob
-					// eine L�sung drin ist
-					e.printStackTrace();
+					log.log(Level.SEVERE, "Trotz Ueberpruefung keine Ziffern enthalten.", e);
 				}
 			}
 		}
@@ -86,9 +85,7 @@ public class Loeser {
 			try {
 				loescheAusSektoren(aktFeld);
 			} catch (MehrAlsEineZifferException e) {
-				// Sollte nie vorkommen, da in geloeste Felder nur Felder mit
-				// genau einer Ziffer sind
-				e.printStackTrace();
+				log.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
 			}
 		}
 	}
@@ -126,16 +123,10 @@ public class Loeser {
 		try {
 			ziffer = aktFeld.holeEinzigenWert();
 		} catch (MehrAlsEineZifferException e) {
-			// Misst - hier hat sich ein Programmierfehler eingeschlichen.
-			// loescheAus() darf nur aufgerufen werden, wenn tats�chlich genau
-			// ein Wert im aktuellen Feld ist
-			e.printStackTrace();
+			log.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Zu viele Ziffern enthalten.", e);
 			throw new ProgrammierException();
 		} catch (KeineZifferException e) {
-			// Misst - hier hat sich ein Programmierfehler eingeschlichen.
-			// loescheAus() darf nur aufgerufen werden, wenn tats�chlich genau
-			// ein Wert im aktuellen Feld ist
-			e.printStackTrace();
+			log.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Keine Ziffer enthalten.", e);
 			throw new ProgrammierException();
 		}
 		for (Feld feld : sektor) {

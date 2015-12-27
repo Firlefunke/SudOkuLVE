@@ -3,8 +3,11 @@ package de.seyfarth.sudokulve;
 import de.seyfarth.sudokulve.exceptions.KeineLoesungException;
 import de.seyfarth.sudokulve.exceptions.KeineZifferException;
 import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Sudoku {
+	private static final Logger log = Logger.getLogger("Sudoku");
 
 	/**
 	 * @param args
@@ -14,8 +17,7 @@ public class Sudoku {
 		try {
 			matrix = new Matrix(9, 3, 3);
 		} catch (KeineLoesungException e) {
-			e.printStackTrace();
-
+			log.log(Level.SEVERE, "Ungueltige Dimensionen oder Block-Laengen bzw. Block-Hoehen angegeben.", e);
 			return;
 		}
 

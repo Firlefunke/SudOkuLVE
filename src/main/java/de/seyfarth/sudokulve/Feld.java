@@ -5,6 +5,7 @@ import de.seyfarth.sudokulve.exceptions.KeineZifferException;
 import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
 
 public class Feld {
+
 	int zeile;
 	int spalte;
 	int block;
@@ -17,7 +18,7 @@ public class Feld {
 		this.spalte = spalte;
 		this.block = block;
 		this.laenge = 0;
-		inhalt = new ArrayList<Integer>();
+		inhalt = new ArrayList<>();
 	}
 
 	void fuelleMitAllenZiffern(int dimension) {
@@ -42,11 +43,9 @@ public class Feld {
 		return false;
 	}
 
-	public int holeEinzigenWert() throws MehrAlsEineZifferException,
-			KeineZifferException {
+	public int holeEinzigenWert() throws MehrAlsEineZifferException, KeineZifferException {
 		if (laenge > 1) {
-			throw new MehrAlsEineZifferException(
-					"Feld enthaelt mehr als einen Wert");
+			throw new MehrAlsEineZifferException("Feld enthaelt mehr als einen Wert");
 		} else if (laenge < 1) {
 			throw new KeineZifferException("Kein Wert im Feld");
 		}

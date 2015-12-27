@@ -65,7 +65,7 @@ public class Matrix {
 	}
 
 	public ArrayList<Feld> zeile(int indexZeile) {
-		ArrayList<Feld> zeilenFelder = new ArrayList<Feld>();
+		ArrayList<Feld> zeilenFelder = new ArrayList<>();
 
 		int erstesFeld = (indexZeile - 1) * dimension;
 		for (int i = 0; i < dimension; i++) {
@@ -75,7 +75,7 @@ public class Matrix {
 	}
 
 	public ArrayList<Feld> spalte(int indexSpalte) {
-		ArrayList<Feld> spaltenFelder = new ArrayList<Feld>();
+		ArrayList<Feld> spaltenFelder = new ArrayList<>();
 
 		int erstesFeld = indexSpalte - 1;
 		for (int i = 0; i < dimension; i++) {
@@ -85,7 +85,7 @@ public class Matrix {
 	}
 
 	public ArrayList<Feld> block(int indexBlock) {
-		ArrayList<Feld> blockFelder = new ArrayList<Feld>();
+		ArrayList<Feld> blockFelder = new ArrayList<>();
 
 		int blockZeile = (indexBlock - 1) / (dimension / anzahlBlockZeilen);
 		int blockSpalte = (indexBlock - 1) % (dimension / anzahlBlockSpalten);
