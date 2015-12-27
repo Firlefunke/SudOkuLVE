@@ -60,13 +60,9 @@ public class Sudoku {
 		Loeser loeser = new Loeser(matrix);
 		try {
 			loeser.fuelleMatrix();
-		} catch (KeineLoesungException e) {
-			e.printStackTrace();
-		}
-		try {
 			loeser.pruefeSektoren();
 		} catch (KeineLoesungException e) {
-			e.printStackTrace();
+			log.log(Level.SEVERE, "Für das Sudoku wurde keine Loesung gefunden.", e);
 		}
 		for (int zeile = 1; zeile <= Matrix.dimension; zeile++) {
 			String ergebnis = "";
@@ -74,18 +70,10 @@ public class Sudoku {
 				try {
 					ergebnis = ergebnis + matrix.getValue(zeile, spalte) + " ";
 				} catch (MehrAlsEineZifferException e) {
-					// Kann vorkommen, wenn es mehrere Loesungen fuer ein Sudoku
-					// gibt
-					e.printStackTrace();
-					System.out
-							.println("\nEs gibt mehr als eine Loesung fuer das Sudoku!!");
+					log.log(Level.WARNING, "Es gibt mehr als eine Loesung fuer das Sudoku!", e);
 					return;
 				} catch (KeineZifferException e) {
-					// Kann vorkommen, wenn es keine Loesung fuer ein Sudoku
-					// gibt
-					e.printStackTrace();
-					System.out
-							.println("\nEs gibt keine Loesung fuer das Sudoku!!");
+					log.log(Level.WARNING, "Es gibt keine Loesung fuer das Sudoku!", e);
 					return;
 				}
 			}

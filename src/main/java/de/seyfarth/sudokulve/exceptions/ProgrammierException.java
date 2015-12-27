@@ -8,7 +8,7 @@ package de.seyfarth.sudokulve.exceptions;
  * 
  * Diese Exception wird in allen Zweigen geworfen,
  * die bei einer sauberen Programmierung nicht erreicht
- * werden d�rfen.
+ * werden dürfen.
  *
  */
 public class ProgrammierException extends RuntimeException {

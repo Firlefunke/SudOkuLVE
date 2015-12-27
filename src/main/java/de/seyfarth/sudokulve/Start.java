@@ -1,6 +1,6 @@
 package de.seyfarth.sudokulve;
 
-public class start {
+public class Start {
 
 	/**
 	 * @param args

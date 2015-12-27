@@ -5,8 +5,11 @@ import de.seyfarth.sudokulve.exceptions.KeineLoesungException;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SudokuloeserGUI {
+	private static final Logger log = Logger.getLogger("SudokuloeserGUI");
 
 	JFrame frame;
 	JPanel settings;
@@ -26,7 +29,7 @@ public class SudokuloeserGUI {
 	public SudokuloeserGUI() {
 
 		createMatrix(9, 3, 3);
-		felder = new ArrayList<JTextField>();
+		felder = new ArrayList<>();
 		gbc = new GridBagConstraints();
 		frame = new JFrame("Sudoku L�ser");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,7 +91,7 @@ public class SudokuloeserGUI {
 		try {
 			matrix = new Matrix(dim, anzBlockZeilen, anzBlockSpalten);
 		} catch (KeineLoesungException e) {
-			e.printStackTrace();
+			log.log(Level.SEVERE, "Ungueltige Dimensionen oder Block-Laengen bzw. Block-Hoehen angegeben.", e);
 		}
 	}
 
@@ -107,7 +110,7 @@ public class SudokuloeserGUI {
 			}
 
 		}
-		sudokuLoesen = new JButton("Sudoku l�sen");
+		sudokuLoesen = new JButton("Sudoku loesen");
 		sudokuLoesen.addActionListener(new SudokuLoesenActionListener());
 		frame.getContentPane().add(BorderLayout.SOUTH, sudokuLoesen);
 		sudoku.repaint();
@@ -143,15 +146,15 @@ public class SudokuloeserGUI {
 
 				x = felder.indexOf(input);
 				for (y = 0; x >= 0 && x <= matrix.getDimension() - 1; y++) {
-					x = x - matrix.getDimension();
+					x -= matrix.getDimension();
 				}
 				try {
-						if (!(input.getText().equals(""))) {
+						if (!(input.getText().isEmpty())) {
 							i = Integer.parseInt(input.getText());
 							matrix.setValue(y + 1, x + 1, i);
 						}
-				} catch (Exception ex) {
-					ex.printStackTrace();
+				} catch (NumberFormatException ex) {
+					log.log(Level.SEVERE, "Der angegebene String konnte nicht als Zahl identifiziert werden.", ex);
 					System.exit(0);
 
 				}
