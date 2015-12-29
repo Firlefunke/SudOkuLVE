@@ -1,8 +1,8 @@
 package de.seyfarth.sudokulve;
 
 import java.util.ArrayList;
-import de.seyfarth.sudokulve.exceptions.KeineZifferException;
-import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
+import de.seyfarth.sudokulve.exceptions.NoNumberException;
+import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
 
 public class Field {
 
@@ -43,11 +43,11 @@ public class Field {
 		return false;
 	}
 
-	public int getSolution() throws MehrAlsEineZifferException, KeineZifferException {
+	public int getSolution() throws MultipleNumbersException, NoNumberException {
 		if (dimension > 1) {
-			throw new MehrAlsEineZifferException("Feld enthaelt mehr als einen Wert");
+			throw new MultipleNumbersException("Feld enthaelt mehr als einen Wert");
 		} else if (dimension < 1) {
-			throw new KeineZifferException("Kein Wert im Feld");
+			throw new NoNumberException("Kein Wert im Feld");
 		}
 		return solution.get(0);
 	}

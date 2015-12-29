@@ -1,7 +1,7 @@
 package de.seyfarth.sudokulve;
 
 import javax.swing.*;
-import de.seyfarth.sudokulve.exceptions.KeineLoesungException;
+import de.seyfarth.sudokulve.exceptions.NoSolutionException;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class SudokuloeserGUI {
 	private void createMatrix(int dim, int anzBlockZeilen, int anzBlockSpalten) {
 		try {
 			matrix = new Matrix(dim, anzBlockZeilen, anzBlockSpalten);
-		} catch (KeineLoesungException e) {
+		} catch (NoSolutionException e) {
 			log.log(Level.SEVERE, "Ungueltige Dimensionen oder Block-Laengen bzw. Block-Hoehen angegeben.", e);
 		}
 	}

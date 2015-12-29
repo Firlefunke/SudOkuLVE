@@ -1,9 +1,9 @@
 package de.seyfarth.sudokulve;
 
 import java.util.ArrayList;
-import de.seyfarth.sudokulve.exceptions.KeineLoesungException;
-import de.seyfarth.sudokulve.exceptions.KeineZifferException;
-import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
+import de.seyfarth.sudokulve.exceptions.NoSolutionException;
+import de.seyfarth.sudokulve.exceptions.NoNumberException;
+import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
 
 public class Matrix {
 
@@ -13,9 +13,9 @@ public class Matrix {
 	static Field[] matrix;
 
 	public Matrix(int dim, int blockRows, int blockColumns)
-			throws KeineLoesungException {
+			throws NoSolutionException {
 		if (blockRows * blockColumns != dim) {
-			throw new KeineLoesungException();
+			throw new NoSolutionException();
 		}
 		matrix = new Field[dim * dim];
 		dimension = dim;
@@ -54,7 +54,7 @@ public class Matrix {
 		}
 
 	public int getValue(int row, int column)
-			throws MehrAlsEineZifferException, KeineZifferException {
+			throws MultipleNumbersException, NoNumberException {
 		int feldIndex = (row - 1) * dimension + column - 1;
 		int inhalt = matrix[feldIndex].getSolution();
 		return inhalt;

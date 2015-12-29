@@ -11,12 +11,12 @@ package de.seyfarth.sudokulve.exceptions;
  * werden dürfen.
  *
  */
-public class ProgrammierException extends RuntimeException {
-	public ProgrammierException() {
+public class ProgrammingException extends RuntimeException {
+	public ProgrammingException() {
 		super();
 	}
 
-	public ProgrammierException(String s) {
+	public ProgrammingException(String s) {
 		super(s);
 	}
 

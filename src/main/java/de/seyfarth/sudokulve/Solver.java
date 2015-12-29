@@ -17,7 +17,7 @@ public class Solver {
 		solvedFields = new ArrayList<>();
 	}
 
-	void fillMatrix() throws KeineLoesungException {
+	void fillMatrix() throws NoSolutionException {
 		for (Field editedField : sudoku.matrix()) {
 			if (editedField.hasSolution()) {
 				continue;
@@ -27,7 +27,7 @@ public class Solver {
 				removeFromSectors(editedField);
 			}
 			if (editedField.isEmpty()) {
-				throw new KeineLoesungException();
+				throw new NoSolutionException();
 			}
 			if (editedField.hasSolution()) {
 				solvedFields.add(editedField);
@@ -70,64 +70,64 @@ public class Solver {
 				try {
 					number = field.getSolution();
 					currentField.remove(number);
-				} catch (MehrAlsEineZifferException e) {
+				} catch (MultipleNumbersException e) {
 					log.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
-				} catch (KeineZifferException e) {
+				} catch (NoNumberException e) {
 					log.log(Level.SEVERE, "Trotz Ueberpruefung keine Ziffern enthalten.", e);
 				}
 			}
 		}
 	}
 
-	void checkSectors() throws KeineLoesungException {
+	void checkSectors() throws NoSolutionException {
 		while (!solvedFields.isEmpty()) {
 			currentField = solvedFields.remove(0);
 			try {
 				deleteFromSectors(currentField);
-			} catch (MehrAlsEineZifferException e) {
+			} catch (MultipleNumbersException e) {
 				log.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
 			}
 		}
 	}
 
-	private void deleteFromSectors(Field currentField) throws KeineLoesungException,
-			MehrAlsEineZifferException {
+	private void deleteFromSectors(Field currentField) throws NoSolutionException,
+			MultipleNumbersException {
 		deleteFromRow(currentField);
 		deleteFromColumn(currentField);
 		deleteFromBlock(currentField);
 	}
 
-	private void deleteFromRow(Field currentField) throws KeineLoesungException,
-			MehrAlsEineZifferException {
+	private void deleteFromRow(Field currentField) throws NoSolutionException,
+			MultipleNumbersException {
 		int index = currentField.row;
 		ArrayList<Field> row = sudoku.getRow(index);
 		deleteFrom(row, currentField);
 	}
 
-	private void deleteFromColumn(Field currentField) throws KeineLoesungException {
+	private void deleteFromColumn(Field currentField) throws NoSolutionException {
 		int index = currentField.column;
 		ArrayList<Field> column = sudoku.getColumn(index);
 		deleteFrom(column, currentField);
 	}
 
-	private void deleteFromBlock(Field currentField) throws KeineLoesungException {
+	private void deleteFromBlock(Field currentField) throws NoSolutionException {
 		int index = currentField.block;
 		ArrayList<Field> block = sudoku.getBlock(index);
 		deleteFrom(block, currentField);
 	}
 
 	private void deleteFrom(ArrayList<Field> sector, Field currentField)
-			throws KeineLoesungException {
+			throws NoSolutionException {
 
 		int number;
 		try {
 			number = currentField.getSolution();
-		} catch (MehrAlsEineZifferException e) {
+		} catch (MultipleNumbersException e) {
 			log.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Zu viele Ziffern enthalten.", e);
-			throw new ProgrammierException();
-		} catch (KeineZifferException e) {
+			throw new ProgrammingException();
+		} catch (NoNumberException e) {
 			log.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Keine Ziffer enthalten.", e);
-			throw new ProgrammierException();
+			throw new ProgrammingException();
 		}
 		for (Field field : sector) {
 			if (field == currentField) {
@@ -138,7 +138,7 @@ public class Solver {
 				solvedFields.add(field);
 			}
 			if (field.isEmpty()) {
-				throw new KeineLoesungException();
+				throw new NoSolutionException();
 			}
 		}
 	}

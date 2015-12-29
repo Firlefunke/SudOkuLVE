@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import de.seyfarth.sudokulve.exceptions.KeineZifferException;
-import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
+import de.seyfarth.sudokulve.exceptions.NoNumberException;
+import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
 
 /**
  * @author barbara
@@ -114,10 +114,10 @@ public class FieldTest {
 			// Da hier eine Exception auftreten muss, darf das Programm dieses
 			// assert nie ausf�hren!
 			richtigeExceptionAufgetreten = false;
-		} catch (MehrAlsEineZifferException e) {
+		} catch (MultipleNumbersException e) {
 			// Diese Exception muesste auftreten
 			richtigeExceptionAufgetreten = true;
-		} catch (KeineZifferException e) {
+		} catch (NoNumberException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
 		}
@@ -133,10 +133,10 @@ public class FieldTest {
 			ziffer = test_feld.getSolution();
 			// Da hier keine Exception auftreten darf, geht es einfach weiter
 			richtigeExceptionAufgetreten = true;
-		} catch (MehrAlsEineZifferException e) {
+		} catch (MultipleNumbersException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
-		} catch (KeineZifferException e) {
+		} catch (NoNumberException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
 		}
@@ -152,10 +152,10 @@ public class FieldTest {
 			// Da hier eine Exception auftreten muss, darf das Programm diese
 			// Zuweisung nie ausfuehren!
 			richtigeExceptionAufgetreten = false;
-		} catch (MehrAlsEineZifferException e) {
+		} catch (MultipleNumbersException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
-		} catch (KeineZifferException e) {
+		} catch (NoNumberException e) {
 			// Diese Exception muss auftreten
 			richtigeExceptionAufgetreten = true;
 		}
@@ -183,10 +183,10 @@ public class FieldTest {
 			ziffer = test_feld.getSolution();
 			// Da hier keine Exception auftreten darf, geht es einfach weiter
 			richtigeExceptionAufgetreten = true;
-		} catch (MehrAlsEineZifferException e) {
+		} catch (MultipleNumbersException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
-		} catch (KeineZifferException e) {
+		} catch (NoNumberException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
 		}
@@ -206,10 +206,10 @@ public class FieldTest {
 			ziffer = test_feld.getSolution();
 			// Da hier keine Exception auftreten darf, geht es einfach weiter
 			richtigeExceptionAufgetreten = true;
-		} catch (MehrAlsEineZifferException e) {
+		} catch (MultipleNumbersException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
-		} catch (KeineZifferException e) {
+		} catch (NoNumberException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
 		}

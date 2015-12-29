@@ -1,8 +1,8 @@
 package de.seyfarth.sudokulve;
 
-import de.seyfarth.sudokulve.exceptions.KeineLoesungException;
-import de.seyfarth.sudokulve.exceptions.KeineZifferException;
-import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
+import de.seyfarth.sudokulve.exceptions.NoSolutionException;
+import de.seyfarth.sudokulve.exceptions.NoNumberException;
+import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +16,7 @@ public class Sudoku {
 		Matrix matrix;
 		try {
 			matrix = new Matrix(9, 3, 3);
-		} catch (KeineLoesungException e) {
+		} catch (NoSolutionException e) {
 			log.log(Level.SEVERE, "Ungueltige Dimensionen oder Block-Laengen bzw. Block-Hoehen angegeben.", e);
 			return;
 		}
@@ -61,7 +61,7 @@ public class Sudoku {
 		try {
 			loeser.fillMatrix();
 			loeser.checkSectors();
-		} catch (KeineLoesungException e) {
+		} catch (NoSolutionException e) {
 			log.log(Level.SEVERE, "Für das Sudoku wurde keine Loesung gefunden.", e);
 		}
 		for (int zeile = 1; zeile <= Matrix.dimension; zeile++) {
@@ -69,10 +69,10 @@ public class Sudoku {
 			for (int spalte = 1; spalte <= Matrix.dimension; spalte++) {
 				try {
 					ergebnis = ergebnis + matrix.getValue(zeile, spalte) + " ";
-				} catch (MehrAlsEineZifferException e) {
+				} catch (MultipleNumbersException e) {
 					log.log(Level.WARNING, "Es gibt mehr als eine Loesung fuer das Sudoku!", e);
 					return;
-				} catch (KeineZifferException e) {
+				} catch (NoNumberException e) {
 					log.log(Level.WARNING, "Es gibt keine Loesung fuer das Sudoku!", e);
 					return;
 				}

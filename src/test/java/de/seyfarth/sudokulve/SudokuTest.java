@@ -2,9 +2,9 @@ package de.seyfarth.sudokulve;
 
 import org.junit.Test;
 
-import de.seyfarth.sudokulve.exceptions.KeineLoesungException;
-import de.seyfarth.sudokulve.exceptions.KeineZifferException;
-import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
+import de.seyfarth.sudokulve.exceptions.NoSolutionException;
+import de.seyfarth.sudokulve.exceptions.NoNumberException;
+import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
 
 public class SudokuTest {
 
@@ -16,7 +16,7 @@ public class SudokuTest {
 		Matrix matrix;
 		try {
 			matrix = new Matrix(9, 3, 3);
-		} catch (KeineLoesungException e) {
+		} catch (NoSolutionException e) {
 			e.printStackTrace();
 
 			return;
@@ -59,12 +59,12 @@ public class SudokuTest {
 		Solver loeser = new Solver(matrix);
 		try {
 			loeser.fillMatrix();
-		} catch (KeineLoesungException e) {
+		} catch (NoSolutionException e) {
 			e.printStackTrace();
 		}
 		try {
 			loeser.checkSectors();
-		} catch (KeineLoesungException e) {
+		} catch (NoSolutionException e) {
 			e.printStackTrace();
 		}
 		for (int zeile = 1; zeile <= Matrix.dimension; zeile++) {
@@ -72,7 +72,7 @@ public class SudokuTest {
 			for (int spalte = 1; spalte <= Matrix.dimension; spalte++) {
 				try {
 					ergebnis = ergebnis + matrix.getValue(zeile, spalte) + " ";
-				} catch (MehrAlsEineZifferException e) {
+				} catch (MultipleNumbersException e) {
 					// Kann vorkommen, wenn es mehrere Loesungen fuer ein Sudoku
 					// gibt
 					e.printStackTrace();
@@ -81,7 +81,7 @@ public class SudokuTest {
 									" Sudoku oder das Sudoku konnte noch nicht" +
 									" vollst�ndig gel�st werden!!");
 					return;
-				} catch (KeineZifferException e) {
+				} catch (NoNumberException e) {
 					// Kann vorkommen, wenn es keine Loesung fuer ein Sudoku
 					// gibt
 					e.printStackTrace();
