@@ -10,14 +10,14 @@ public class Matrix {
 	static int dimension;
 	static int anzahlBlockZeilen;
 	static int anzahlBlockSpalten;
-	static Feld[] felder;
+	static Field[] felder;
 
 	public Matrix(int dim, int anzBlockZeilen, int anzBlockSpalten)
 			throws KeineLoesungException {
 		if (anzBlockZeilen * anzBlockSpalten != dim) {
 			throw new KeineLoesungException();
 		}
-		felder = new Feld[dim * dim];
+		felder = new Field[dim * dim];
 		dimension = dim;
 		anzahlBlockZeilen = anzBlockZeilen;
 		anzahlBlockSpalten = anzBlockSpalten;
@@ -26,7 +26,7 @@ public class Matrix {
 		for (int zeile = 1; zeile <= dimension; zeile++) {
 			for (int spalte = 1; spalte <= dimension; spalte++) {
 				int block = getBlock(zeile, spalte);
-				Feld feld = new Feld(zeile, spalte, block);
+				Field feld = new Field(zeile, spalte, block);
 				felder[i] = feld;
 				i++;
 			}
@@ -50,13 +50,13 @@ public class Matrix {
 
 	public void setValue(int zeile, int spalte, int wert) {
 		int feldIndex = (zeile - 1) * dimension + spalte - 1;
-		felder[feldIndex].setzeEinzigenWert(wert);
+		felder[feldIndex].setSolution(wert);
 		}
 
 	public int getValue(int zeile, int spalte)
 			throws MehrAlsEineZifferException, KeineZifferException {
 		int feldIndex = (zeile - 1) * dimension + spalte - 1;
-		int inhalt = felder[feldIndex].holeEinzigenWert();
+		int inhalt = felder[feldIndex].getSolution();
 		return inhalt;
 	}
 
@@ -64,8 +64,8 @@ public class Matrix {
 		return dimension;
 	}
 
-	public ArrayList<Feld> zeile(int indexZeile) {
-		ArrayList<Feld> zeilenFelder = new ArrayList<>();
+	public ArrayList<Field> zeile(int indexZeile) {
+		ArrayList<Field> zeilenFelder = new ArrayList<>();
 
 		int erstesFeld = (indexZeile - 1) * dimension;
 		for (int i = 0; i < dimension; i++) {
@@ -74,8 +74,8 @@ public class Matrix {
 		return zeilenFelder;
 	}
 
-	public ArrayList<Feld> spalte(int indexSpalte) {
-		ArrayList<Feld> spaltenFelder = new ArrayList<>();
+	public ArrayList<Field> spalte(int indexSpalte) {
+		ArrayList<Field> spaltenFelder = new ArrayList<>();
 
 		int erstesFeld = indexSpalte - 1;
 		for (int i = 0; i < dimension; i++) {
@@ -84,8 +84,8 @@ public class Matrix {
 		return spaltenFelder;
 	}
 
-	public ArrayList<Feld> block(int indexBlock) {
-		ArrayList<Feld> blockFelder = new ArrayList<>();
+	public ArrayList<Field> block(int indexBlock) {
+		ArrayList<Field> blockFelder = new ArrayList<>();
 
 		int blockZeile = (indexBlock - 1) / (dimension / anzahlBlockZeilen);
 		int blockSpalte = (indexBlock - 1) % (dimension / anzahlBlockSpalten);
@@ -101,7 +101,7 @@ public class Matrix {
 		return blockFelder;
 	}
 
-	public Feld[] matrix() {
+	public Field[] matrix() {
 		return felder;
 	}
 }

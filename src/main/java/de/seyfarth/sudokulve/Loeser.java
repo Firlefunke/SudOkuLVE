@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 public class Loeser {
 	private static final Logger log = Logger.getLogger("Loeser");
 	
-	Feld aktFeld;
+	Field aktFeld;
 	Matrix sudoku;
-	ArrayList<Feld> geloesteFelder;
+	ArrayList<Field> geloesteFelder;
 
 	public Loeser(Matrix matrix) {
 		sudoku = matrix;
@@ -18,58 +18,58 @@ public class Loeser {
 	}
 
 	void fuelleMatrix() throws KeineLoesungException {
-		for (Feld editedFeld : sudoku.matrix()) {
-			if (editedFeld.hatGenauEineZiffer()) {
+		for (Field editedFeld : sudoku.matrix()) {
+			if (editedFeld.hasSolution()) {
 				continue;
 			}
-			if (editedFeld.istLeer()) {
-				editedFeld.fuelleMitAllenZiffern(sudoku.getDimension());
+			if (editedFeld.isEmpty()) {
+				editedFeld.fillWithAllNumbers(sudoku.getDimension());
 				leereAusSektoren(editedFeld);
 			}
-			if (editedFeld.istLeer()) {
+			if (editedFeld.isEmpty()) {
 				throw new KeineLoesungException();
 			}
-			if (editedFeld.hatGenauEineZiffer()) {
+			if (editedFeld.hasSolution()) {
 				geloesteFelder.add(editedFeld);
 			}
 		}
 	}
 
-	private void leereAusSektoren(Feld aktFeld) {
+	private void leereAusSektoren(Field aktFeld) {
 		leereAusZeile(aktFeld);
 		leereAusSpalte(aktFeld);
 		leereAusBlock(aktFeld);
 	}
 
-	private void leereAusZeile(Feld aktFeld) {
-		int indexZeile = aktFeld.zeile;
-		ArrayList<Feld> zeile = sudoku.zeile(indexZeile);
+	private void leereAusZeile(Field aktFeld) {
+		int indexZeile = aktFeld.row;
+		ArrayList<Field> zeile = sudoku.zeile(indexZeile);
 		leereAus(zeile, aktFeld);
 	}
 
-	private void leereAusSpalte(Feld aktFeld) {
-		int indexSpalte = aktFeld.spalte;
-		ArrayList<Feld> spalte = sudoku.spalte(indexSpalte);
+	private void leereAusSpalte(Field aktFeld) {
+		int indexSpalte = aktFeld.column;
+		ArrayList<Field> spalte = sudoku.spalte(indexSpalte);
 		leereAus(spalte, aktFeld);
 	}
 
-	private void leereAusBlock(Feld aktFeld) {
+	private void leereAusBlock(Field aktFeld) {
 		int indexBlock = aktFeld.block;
-		ArrayList<Feld> block = sudoku.block(indexBlock);
+		ArrayList<Field> block = sudoku.block(indexBlock);
 		leereAus(block, aktFeld);
 	}
 
-	private void leereAus(ArrayList<Feld> sektor, Feld aktFeld) {
-		for (Feld feld : sektor) {
+	private void leereAus(ArrayList<Field> sektor, Field aktFeld) {
+		for (Field feld : sektor) {
 			if (feld == aktFeld) {
 				continue;
 			}
-			if (feld.hatGenauEineZiffer()) {
+			if (feld.hasSolution()) {
 
 				int ziffer;
 				try {
-					ziffer = feld.holeEinzigenWert();
-					aktFeld.entferne(ziffer);
+					ziffer = feld.getSolution();
+					aktFeld.remove(ziffer);
 				} catch (MehrAlsEineZifferException e) {
 					log.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
 				} catch (KeineZifferException e) {
@@ -90,38 +90,38 @@ public class Loeser {
 		}
 	}
 
-	private void loescheAusSektoren(Feld aktFeld) throws KeineLoesungException,
+	private void loescheAusSektoren(Field aktFeld) throws KeineLoesungException,
 			MehrAlsEineZifferException {
 		loescheAusZeile(aktFeld);
 		loescheAusSpalte(aktFeld);
 		loescheAusBlock(aktFeld);
 	}
 
-	private void loescheAusZeile(Feld aktFeld) throws KeineLoesungException,
+	private void loescheAusZeile(Field aktFeld) throws KeineLoesungException,
 			MehrAlsEineZifferException {
-		int indexZeile = aktFeld.zeile;
-		ArrayList<Feld> zeile = sudoku.zeile(indexZeile);
+		int indexZeile = aktFeld.row;
+		ArrayList<Field> zeile = sudoku.zeile(indexZeile);
 		loescheAus(zeile, aktFeld);
 	}
 
-	private void loescheAusSpalte(Feld aktFeld) throws KeineLoesungException {
-		int indexSpalte = aktFeld.spalte;
-		ArrayList<Feld> spalte = sudoku.spalte(indexSpalte);
+	private void loescheAusSpalte(Field aktFeld) throws KeineLoesungException {
+		int indexSpalte = aktFeld.column;
+		ArrayList<Field> spalte = sudoku.spalte(indexSpalte);
 		loescheAus(spalte, aktFeld);
 	}
 
-	private void loescheAusBlock(Feld aktFeld) throws KeineLoesungException {
+	private void loescheAusBlock(Field aktFeld) throws KeineLoesungException {
 		int indexBlock = aktFeld.block;
-		ArrayList<Feld> block = sudoku.block(indexBlock);
+		ArrayList<Field> block = sudoku.block(indexBlock);
 		loescheAus(block, aktFeld);
 	}
 
-	private void loescheAus(ArrayList<Feld> sektor, Feld aktFeld)
+	private void loescheAus(ArrayList<Field> sektor, Field aktFeld)
 			throws KeineLoesungException {
 
 		int ziffer;
 		try {
-			ziffer = aktFeld.holeEinzigenWert();
+			ziffer = aktFeld.getSolution();
 		} catch (MehrAlsEineZifferException e) {
 			log.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Zu viele Ziffern enthalten.", e);
 			throw new ProgrammierException();
@@ -129,15 +129,15 @@ public class Loeser {
 			log.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Keine Ziffer enthalten.", e);
 			throw new ProgrammierException();
 		}
-		for (Feld feld : sektor) {
+		for (Field feld : sektor) {
 			if (feld == aktFeld) {
 				continue;
 			}
-			boolean wurdeEntfernt = feld.entferne(ziffer);
-			if ((feld.hatGenauEineZiffer()) && wurdeEntfernt) {
+			boolean wurdeEntfernt = feld.remove(ziffer);
+			if ((feld.hasSolution()) && wurdeEntfernt) {
 				geloesteFelder.add(feld);
 			}
-			if (feld.istLeer()) {
+			if (feld.isEmpty()) {
 				throw new KeineLoesungException();
 			}
 		}
