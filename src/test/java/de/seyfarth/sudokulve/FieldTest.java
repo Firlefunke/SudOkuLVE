@@ -17,7 +17,7 @@ import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
 public class FieldTest {
 
 	/**
-	 * Test method for {@link de.seyfarth.sudokulve.Feld#Feld(int, int, int)}.
+	 * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int)}.
 	 */
 	@Test
 	public final void testField() {
@@ -31,10 +31,10 @@ public class FieldTest {
 	}
 
 	/**
-	 * Test method for {@link de.seyfarth.sudokulve.Feld#fuelleMitAllenZiffern(int)}
-	 * {@link de.seyfarth.sudokulve.Feld#entferne(int)}
-	 * {@link de.seyfarth.sudokulve.Feld#istLeer(int)}
-	 * {@link de.seyfarth.sudokulve.Feld#hatGenauEineZiffer(int)}
+	 * Test method for {@link de.seyfarth.sudokulve.Field#fillWithAllNumbers(int)}
+	 * {@link de.seyfarth.sudokulve.Field#remove(int)}
+	 * {@link de.seyfarth.sudokulve.Field#isEmpty()}
+	 * {@link de.seyfarth.sudokulve.Field#hasSolution()}
 	 */
 	@Test
 	public final void testFuelleMitAllenZiffernUndLeereDann() {
@@ -91,7 +91,7 @@ public class FieldTest {
 	}
 
 	/**
-	 * Test method for {@link de.seyfarth.sudokulve.Feld#holeEinzigenWert()}
+	 * Test method for {@link de.seyfarth.sudokulve.Field#getSolution()}
 	 */
 	@Test
 	public final void testHoleEinzigenWert() {
@@ -160,8 +160,8 @@ public class FieldTest {
 	}
 
 	/**
-	 * Test method for {@link de.seyfarth.sudokulve.Feld#holeEinzigenWert()}
-	 * {@link de.seyfarth.sudokulve.Feld#setzeEinzigenWert(int)}
+	 * Test method for {@link de.seyfarth.sudokulve.Field#getSolution()}
+	 * {@link de.seyfarth.sudokulve.Field#setSolution(int)}
 	 */
 	@Test
 	public final void testSetzeEinzigenWert() {

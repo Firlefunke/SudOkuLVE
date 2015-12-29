@@ -9,7 +9,7 @@ import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
 public class SudokuTest {
 
 	/**
-	 * Test method for {@link de.seyfarth.sudokulve.Feld#Feld(int, int, int)}.
+	 * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int)}.
 	 */
 	@Test
 	public final void testSudoku() {
