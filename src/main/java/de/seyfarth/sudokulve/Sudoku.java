@@ -1,8 +1,6 @@
 package de.seyfarth.sudokulve;
 
 import de.seyfarth.sudokulve.exceptions.NoSolutionException;
-import de.seyfarth.sudokulve.exceptions.NoNumberException;
-import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +19,6 @@ public class Sudoku {
 			return;
 		}
 
-		
 		matrix.setValue(1, 1, 4);
 		matrix.setValue(1, 9, 9);
 		matrix.setValue(2, 2, 2);
@@ -70,12 +67,13 @@ public class Sudoku {
 				try {
 					ergebnis.append(matrix.getValue(zeile, spalte));
                                         ergebnis.append(" ");
-				} catch (MultipleNumbersException e) {
+				} catch (IllegalStateException e) {
+                                    if (e.getMessage().equals("There is more than one possible solution.")) {
 					LOG.log(Level.WARNING, "Es gibt mehr als eine Loesung fuer das Sudoku!", e);
-					return;
-				} catch (NoNumberException e) {
+                                    } else if (e.getMessage().equals("There is no possible solution.")) {
 					LOG.log(Level.WARNING, "Es gibt keine Loesung fuer das Sudoku!", e);
-					return;
+                                    }
+        			return;
 				}
 			}
 			System.out.println(ergebnis.toString());

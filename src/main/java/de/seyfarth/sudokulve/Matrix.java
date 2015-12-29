@@ -2,8 +2,6 @@ package de.seyfarth.sudokulve;
 
 import java.util.ArrayList;
 import de.seyfarth.sudokulve.exceptions.NoSolutionException;
-import de.seyfarth.sudokulve.exceptions.NoNumberException;
-import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
 
 public class Matrix {
 
@@ -26,7 +24,7 @@ public class Matrix {
 		for (int row = 1; row <= dimension; row++) {
 			for (int column = 1; column <= dimension; column++) {
 				int block = Matrix.this.getBlock(row, column);
-				Field field = new Field(row, column, block);
+				Field field = new Field(row, column, block, dimension);
 				matrix[i] = field;
 				i++;
 			}
@@ -53,8 +51,7 @@ public class Matrix {
 		matrix[feldIndex].setSolution(value);
 		}
 
-	public int getValue(int row, int column)
-			throws MultipleNumbersException, NoNumberException {
+    public int getValue(int row, int column) {
 		int feldIndex = (row - 1) * dimension + column - 1;
 		int inhalt = matrix[feldIndex].getSolution();
 		return inhalt;

@@ -7,9 +7,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import de.seyfarth.sudokulve.exceptions.NoNumberException;
-import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
-
 /**
  * @author barbara
  * 
@@ -22,12 +19,12 @@ public class FieldTest {
 	@Test
 	public final void testField() {
 		// Erzeuge ein Field, das in der 2. Spalte, 3. Zeile und Block 2 ist
-		Field test_feld = new Field(2, 3, 2);
+		Field test_feld = new Field(2, 3, 2, 4);
 
 		// Check content of test_feld
-		assertEquals("Zeilennummer", 2, test_feld.row);
-		assertEquals("Spaltennummer", 3, test_feld.column);
-		assertEquals("Blocknummer", 2, test_feld.block);
+		assertEquals("Zeilennummer", 2, test_feld.getRow());
+		assertEquals("Spaltennummer", 3, test_feld.getColumn());
+		assertEquals("Blocknummer", 2, test_feld.getBlock());
 	}
 
 	/**
@@ -38,17 +35,17 @@ public class FieldTest {
 	 */
 	@Test
 	public final void testFuelleMitAllenZiffernUndLeereDann() {
-		Field test_feld = new Field(2, 3, 2);
+		Field test_feld = new Field(2, 3, 2, 4);
 		boolean warEnthalten;
 
 		// F�lle das Field mit den Ziffern 1, 2, 3, 4
-		test_feld.fillWithAllNumbers(4);
+		test_feld.fillWithAllNumbers();
 		// Entferne eine Ziffer, die nie in der Liste war
 		warEnthalten = test_feld.remove(7);
 		assertFalse(warEnthalten);
 		// Und wieder f�llen... es sollten immer noch nur die Ziffern 1, 2, 3, 4
 		// genau einmal enthalten
-		test_feld.fillWithAllNumbers(4);
+		test_feld.fillWithAllNumbers();
 		// Entferne Ziffer 3
 		warEnthalten = test_feld.remove(3);
 		assertTrue(warEnthalten);
@@ -95,13 +92,13 @@ public class FieldTest {
 	 */
 	@Test
 	public final void testHoleEinzigenWert() {
-		Field test_feld = new Field(2, 3, 2);
+		Field test_feld = new Field(2, 3, 2, 4);
 		boolean warEnthalten;
 		boolean richtigeExceptionAufgetreten;
 		int ziffer = 0;
 
 		// Erstmal f�llen wir das Field mit den Ziffern 1, 2, 3, 4
-		test_feld.fillWithAllNumbers(4);
+		test_feld.fillWithAllNumbers();
 		// Dann entfernen wir zwei von den vier Ziffern
 		warEnthalten = test_feld.remove(4);
 		assertTrue(warEnthalten);
@@ -112,14 +109,11 @@ public class FieldTest {
 		try {
 			ziffer = test_feld.getSolution();
 			// Da hier eine Exception auftreten muss, darf das Programm dieses
-			// assert nie ausf�hren!
+			// assert nie ausführen!
 			richtigeExceptionAufgetreten = false;
-		} catch (MultipleNumbersException e) {
+		} catch (IllegalStateException e) {
 			// Diese Exception muesste auftreten
-			richtigeExceptionAufgetreten = true;
-		} catch (NoNumberException e) {
-			// Diese Exception darf hier nicht auftreten
-			richtigeExceptionAufgetreten = false;
+			richtigeExceptionAufgetreten = e.getMessage().equals("There is more than one possible solution.");
 		}
 		assertTrue(richtigeExceptionAufgetreten);
 		// Jetzt entfernen wir noch eine Ziffer, so dass nur noch eine Ziffer im
@@ -133,7 +127,7 @@ public class FieldTest {
 			ziffer = test_feld.getSolution();
 			// Da hier keine Exception auftreten darf, geht es einfach weiter
 			richtigeExceptionAufgetreten = true;
-		} catch (MultipleNumbersException | NoNumberException e) {
+		} catch (IllegalStateException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
 		}
@@ -149,12 +143,9 @@ public class FieldTest {
 			// Da hier eine Exception auftreten muss, darf das Programm diese
 			// Zuweisung nie ausfuehren!
 			richtigeExceptionAufgetreten = false;
-		} catch (MultipleNumbersException e) {
-			// Diese Exception darf hier nicht auftreten
-			richtigeExceptionAufgetreten = false;
-		} catch (NoNumberException e) {
+		} catch (IllegalStateException e) {
 			// Diese Exception muss auftreten
-			richtigeExceptionAufgetreten = true;
+			richtigeExceptionAufgetreten = e.getMessage().equals("There is no possible solution.");
 		}
 		assertTrue(richtigeExceptionAufgetreten);
 	}
@@ -165,7 +156,7 @@ public class FieldTest {
 	 */
 	@Test
 	public final void testSetzeEinzigenWert() {
-		Field test_feld = new Field(2, 3, 2);
+		Field test_feld = new Field(2, 3, 2,4);
 		int ziffer = 0;
 		boolean richtigeExceptionAufgetreten;
 
@@ -180,16 +171,11 @@ public class FieldTest {
 			ziffer = test_feld.getSolution();
 			// Da hier keine Exception auftreten darf, geht es einfach weiter
 			richtigeExceptionAufgetreten = true;
-		} catch (MultipleNumbersException | NoNumberException e) {
+		} catch (IllegalStateException e) {
 			richtigeExceptionAufgetreten = false;
 		}
 		assertTrue(richtigeExceptionAufgetreten);
 		assertTrue(ziffer == 234);
-		// Jetzt fuellen wir mal das Field mir mehr Ziffern
-		test_feld.fillWithAllNumbers(17);
-		// Pruefen, ob es auch wirklich mehr als eine Ziffer sind
-		assertFalse(test_feld.isEmpty());
-		assertFalse(test_feld.hasSolution());
 		// Und setzen jetzt wieder genau eine Ziffer
 		test_feld.setSolution(3);
 		// Nun muss genau eine Zifferdrin stehen
@@ -199,7 +185,7 @@ public class FieldTest {
 			ziffer = test_feld.getSolution();
 			// Da hier keine Exception auftreten darf, geht es einfach weiter
 			richtigeExceptionAufgetreten = true;
-		} catch (MultipleNumbersException | NoNumberException e) {
+		} catch (IllegalStateException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
 		}
