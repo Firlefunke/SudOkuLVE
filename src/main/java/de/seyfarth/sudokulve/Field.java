@@ -3,6 +3,11 @@ package de.seyfarth.sudokulve;
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
 
+/**
+ * A Field object represents one field of a sudoku matrix.
+ * The field contains its position in the matrix and
+ * all possible values during the solving process of the sudoku.
+ */
 public class Field {
 
     private final int row;
@@ -13,12 +18,13 @@ public class Field {
     private final TIntSet values;
 
     /**
-     * Constructor.
+     * Constructs an empty field on the given position with the given dimension.
      *
      * @param row row index of this field<br>Range: 0 to {@code dimension - 1}
      * @param column column index of this field<br>Range: 0 to {@code dimension - 1}
      * @param block block index of this field<br>Range: 0 to {@code dimension - 1}
-     * @param dimension maximum value that can be part of this field and size of the matrix this field is part of<br>Range: greater than zero
+     * @param dimension maximum value that can be part of this field and size of the matrix this
+     * field is part of<br>Range: greater than zero
      */
     public Field(int row, int column, int block, int dimension) {
         if (dimension <= 0) {
