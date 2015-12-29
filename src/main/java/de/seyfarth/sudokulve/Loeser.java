@@ -43,19 +43,19 @@ public class Loeser {
 
 	private void leereAusZeile(Field aktFeld) {
 		int indexZeile = aktFeld.row;
-		ArrayList<Field> zeile = sudoku.zeile(indexZeile);
+		ArrayList<Field> zeile = sudoku.getRow(indexZeile);
 		leereAus(zeile, aktFeld);
 	}
 
 	private void leereAusSpalte(Field aktFeld) {
 		int indexSpalte = aktFeld.column;
-		ArrayList<Field> spalte = sudoku.spalte(indexSpalte);
+		ArrayList<Field> spalte = sudoku.getColumn(indexSpalte);
 		leereAus(spalte, aktFeld);
 	}
 
 	private void leereAusBlock(Field aktFeld) {
 		int indexBlock = aktFeld.block;
-		ArrayList<Field> block = sudoku.block(indexBlock);
+		ArrayList<Field> block = sudoku.getBlock(indexBlock);
 		leereAus(block, aktFeld);
 	}
 
@@ -100,19 +100,19 @@ public class Loeser {
 	private void loescheAusZeile(Field aktFeld) throws KeineLoesungException,
 			MehrAlsEineZifferException {
 		int indexZeile = aktFeld.row;
-		ArrayList<Field> zeile = sudoku.zeile(indexZeile);
+		ArrayList<Field> zeile = sudoku.getRow(indexZeile);
 		loescheAus(zeile, aktFeld);
 	}
 
 	private void loescheAusSpalte(Field aktFeld) throws KeineLoesungException {
 		int indexSpalte = aktFeld.column;
-		ArrayList<Field> spalte = sudoku.spalte(indexSpalte);
+		ArrayList<Field> spalte = sudoku.getColumn(indexSpalte);
 		loescheAus(spalte, aktFeld);
 	}
 
 	private void loescheAusBlock(Field aktFeld) throws KeineLoesungException {
 		int indexBlock = aktFeld.block;
-		ArrayList<Field> block = sudoku.block(indexBlock);
+		ArrayList<Field> block = sudoku.getBlock(indexBlock);
 		loescheAus(block, aktFeld);
 	}
 
