@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Sudoku {
-	private static final Logger log = Logger.getLogger("Sudoku");
+	private static final Logger LOG = Logger.getLogger("Sudoku");
 
 	/**
 	 * @param args
@@ -17,7 +17,7 @@ public class Sudoku {
 		try {
 			matrix = new Matrix(9, 3, 3);
 		} catch (NoSolutionException e) {
-			log.log(Level.SEVERE, "Ungueltige Dimensionen oder Block-Laengen bzw. Block-Hoehen angegeben.", e);
+			LOG.log(Level.SEVERE, "Ungueltige Dimensionen oder Block-Laengen bzw. Block-Hoehen angegeben.", e);
 			return;
 		}
 
@@ -62,22 +62,23 @@ public class Sudoku {
 			loeser.fillMatrix();
 			loeser.checkSectors();
 		} catch (NoSolutionException e) {
-			log.log(Level.SEVERE, "Für das Sudoku wurde keine Loesung gefunden.", e);
+			LOG.log(Level.SEVERE, "Für das Sudoku wurde keine Loesung gefunden.", e);
 		}
-		for (int zeile = 1; zeile <= Matrix.dimension; zeile++) {
-			String ergebnis = "";
-			for (int spalte = 1; spalte <= Matrix.dimension; spalte++) {
+		for (int zeile = 1; zeile <= matrix.getDimension(); zeile++) {
+			StringBuilder ergebnis = new StringBuilder();
+			for (int spalte = 1; spalte <= matrix.getDimension(); spalte++) {
 				try {
-					ergebnis = ergebnis + matrix.getValue(zeile, spalte) + " ";
+					ergebnis.append(matrix.getValue(zeile, spalte));
+                                        ergebnis.append(" ");
 				} catch (MultipleNumbersException e) {
-					log.log(Level.WARNING, "Es gibt mehr als eine Loesung fuer das Sudoku!", e);
+					LOG.log(Level.WARNING, "Es gibt mehr als eine Loesung fuer das Sudoku!", e);
 					return;
 				} catch (NoNumberException e) {
-					log.log(Level.WARNING, "Es gibt keine Loesung fuer das Sudoku!", e);
+					LOG.log(Level.WARNING, "Es gibt keine Loesung fuer das Sudoku!", e);
 					return;
 				}
 			}
-			System.out.println(ergebnis);
+			System.out.println(ergebnis.toString());
 		}
 	}
 }

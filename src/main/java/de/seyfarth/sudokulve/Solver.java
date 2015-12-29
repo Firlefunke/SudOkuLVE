@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Solver {
-	private static final Logger log = Logger.getLogger("Loeser");
+	private static final Logger LOG = Logger.getLogger("Solver");
 	
 	Field currentField;
 	Matrix sudoku;
@@ -71,9 +71,9 @@ public class Solver {
 					number = field.getSolution();
 					currentField.remove(number);
 				} catch (MultipleNumbersException e) {
-					log.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
+					LOG.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
 				} catch (NoNumberException e) {
-					log.log(Level.SEVERE, "Trotz Ueberpruefung keine Ziffern enthalten.", e);
+					LOG.log(Level.SEVERE, "Trotz Ueberpruefung keine Ziffern enthalten.", e);
 				}
 			}
 		}
@@ -85,7 +85,7 @@ public class Solver {
 			try {
 				deleteFromSectors(currentField);
 			} catch (MultipleNumbersException e) {
-				log.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
+				LOG.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
 			}
 		}
 	}
@@ -123,10 +123,10 @@ public class Solver {
 		try {
 			number = currentField.getSolution();
 		} catch (MultipleNumbersException e) {
-			log.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Zu viele Ziffern enthalten.", e);
+			LOG.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Zu viele Ziffern enthalten.", e);
 			throw new ProgrammingException();
 		} catch (NoNumberException e) {
-			log.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Keine Ziffer enthalten.", e);
+			LOG.log(Level.SEVERE, "Precondition von loescheAus() wurde nicht eingehalten: Keine Ziffer enthalten.", e);
 			throw new ProgrammingException();
 		}
 		for (Field field : sector) {

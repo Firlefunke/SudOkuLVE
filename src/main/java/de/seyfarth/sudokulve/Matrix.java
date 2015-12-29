@@ -7,10 +7,10 @@ import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
 
 public class Matrix {
 
-	static int dimension;
-	static int numberRowsPerBlock;
-	static int numberColumnsPerBlock;
-	static Field[] matrix;
+	private final int dimension;
+	private final int numberRowsPerBlock;
+	private final int numberColumnsPerBlock;
+	private Field[] matrix;
 
 	public Matrix(int dim, int blockRows, int blockColumns)
 			throws NoSolutionException {

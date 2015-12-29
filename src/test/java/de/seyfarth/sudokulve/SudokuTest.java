@@ -67,9 +67,9 @@ public class SudokuTest {
 		} catch (NoSolutionException e) {
 			e.printStackTrace();
 		}
-		for (int zeile = 1; zeile <= Matrix.dimension; zeile++) {
+		for (int zeile = 1; zeile <= matrix.getDimension(); zeile++) {
 			String ergebnis = "";
-			for (int spalte = 1; spalte <= Matrix.dimension; spalte++) {
+			for (int spalte = 1; spalte <= matrix.getDimension(); spalte++) {
 				try {
 					ergebnis = ergebnis + matrix.getValue(zeile, spalte) + " ";
 				} catch (MultipleNumbersException e) {
