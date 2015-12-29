@@ -9,7 +9,7 @@ import de.seyfarth.sudokulve.exceptions.MultipleNumbersException;
 public class SudokuTest {
 
 	/**
-	 * Test method for {@link sudokuloeser.Feld#Feld(int, int, int)}.
+	 * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int)}.
 	 */
 	@Test
 	public final void testSudoku() {
@@ -79,7 +79,7 @@ public class SudokuTest {
 					System.out
 							.println("Es gibt mehr als eine Loesung fuer das" +
 									" Sudoku oder das Sudoku konnte noch nicht" +
-									" vollst�ndig gel�st werden!!");
+									" vollständig gelöst werden!!");
 					return;
 				} catch (NoNumberException e) {
 					// Kann vorkommen, wenn es keine Loesung fuer ein Sudoku
