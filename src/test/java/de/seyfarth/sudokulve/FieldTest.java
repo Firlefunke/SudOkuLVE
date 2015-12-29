@@ -17,7 +17,7 @@ import de.seyfarth.sudokulve.exceptions.MehrAlsEineZifferException;
 public class FieldTest {
 
 	/**
-	 * Test method for {@link sudokuloeser.Feld#Feld(int, int, int)}.
+	 * Test method for {@link de.seyfarth.sudokulve.Feld#Feld(int, int, int)}.
 	 */
 	@Test
 	public final void testField() {
@@ -31,15 +31,15 @@ public class FieldTest {
 	}
 
 	/**
-	 * Test method for {@link sudokuloeser.Feld#fuelleMitAllenZiffern(int)}
-	 * {@link sudokuloeser.Feld#entferne(int)}
-	 * {@link sudokuloeser.Feld#istLeer(int)}
-	 * {@link sudokuloeser.Feld#hatGenauEineZiffer(int)}
+	 * Test method for {@link de.seyfarth.sudokulve.Feld#fuelleMitAllenZiffern(int)}
+	 * {@link de.seyfarth.sudokulve.Feld#entferne(int)}
+	 * {@link de.seyfarth.sudokulve.Feld#istLeer(int)}
+	 * {@link de.seyfarth.sudokulve.Feld#hatGenauEineZiffer(int)}
 	 */
 	@Test
 	public final void testFuelleMitAllenZiffernUndLeereDann() {
 		Field test_feld = new Field(2, 3, 2);
-		boolean warEnthalten = false;
+		boolean warEnthalten;
 
 		// F�lle das Field mit den Ziffern 1, 2, 3, 4
 		test_feld.fillWithAllNumbers(4);
@@ -91,13 +91,13 @@ public class FieldTest {
 	}
 
 	/**
-	 * Test method for {@link sudokuloeser.Feld#holeEinzigenWert()}
+	 * Test method for {@link de.seyfarth.sudokulve.Feld#holeEinzigenWert()}
 	 */
 	@Test
 	public final void testHoleEinzigenWert() {
 		Field test_feld = new Field(2, 3, 2);
-		boolean warEnthalten = false;
-		boolean richtigeExceptionAufgetreten = false;
+		boolean warEnthalten;
+		boolean richtigeExceptionAufgetreten;
 		int ziffer = 0;
 
 		// Erstmal f�llen wir das Field mit den Ziffern 1, 2, 3, 4
@@ -133,10 +133,7 @@ public class FieldTest {
 			ziffer = test_feld.getSolution();
 			// Da hier keine Exception auftreten darf, geht es einfach weiter
 			richtigeExceptionAufgetreten = true;
-		} catch (MehrAlsEineZifferException e) {
-			// Diese Exception darf hier nicht auftreten
-			richtigeExceptionAufgetreten = false;
-		} catch (KeineZifferException e) {
+		} catch (MehrAlsEineZifferException | KeineZifferException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
 		}
@@ -148,7 +145,7 @@ public class FieldTest {
 		assertTrue(test_feld.isEmpty());
 		// Das Lesen des Wertes muss eine Exception ausloesen
 		try {
-			ziffer = test_feld.getSolution();
+			test_feld.getSolution();
 			// Da hier eine Exception auftreten muss, darf das Programm diese
 			// Zuweisung nie ausfuehren!
 			richtigeExceptionAufgetreten = false;
@@ -163,14 +160,14 @@ public class FieldTest {
 	}
 
 	/**
-	 * Test method for {@link sudokuloeser.Feld#holeEinzigenWert()}
-	 * {@link sudokuloeser.Feld#setzeEinzigenWert(int)}
+	 * Test method for {@link de.seyfarth.sudokulve.Feld#holeEinzigenWert()}
+	 * {@link de.seyfarth.sudokulve.Feld#setzeEinzigenWert(int)}
 	 */
 	@Test
 	public final void testSetzeEinzigenWert() {
 		Field test_feld = new Field(2, 3, 2);
 		int ziffer = 0;
-		boolean richtigeExceptionAufgetreten = false;
+		boolean richtigeExceptionAufgetreten;
 
 		// Als erstes ueberpruefen wir, ob das Field leer ist
 		assertTrue(test_feld.isEmpty());
@@ -183,10 +180,7 @@ public class FieldTest {
 			ziffer = test_feld.getSolution();
 			// Da hier keine Exception auftreten darf, geht es einfach weiter
 			richtigeExceptionAufgetreten = true;
-		} catch (MehrAlsEineZifferException e) {
-			// Diese Exception darf hier nicht auftreten
-			richtigeExceptionAufgetreten = false;
-		} catch (KeineZifferException e) {
+		} catch (MehrAlsEineZifferException | KeineZifferException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
 		}
@@ -206,10 +200,7 @@ public class FieldTest {
 			ziffer = test_feld.getSolution();
 			// Da hier keine Exception auftreten darf, geht es einfach weiter
 			richtigeExceptionAufgetreten = true;
-		} catch (MehrAlsEineZifferException e) {
-			// Diese Exception darf hier nicht auftreten
-			richtigeExceptionAufgetreten = false;
-		} catch (KeineZifferException e) {
+		} catch (MehrAlsEineZifferException | KeineZifferException e) {
 			// Diese Exception darf hier nicht auftreten
 			richtigeExceptionAufgetreten = false;
 		}
