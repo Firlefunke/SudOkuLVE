@@ -56,14 +56,14 @@ public class SudokuTest {
 		matrix.setValue(9, 4, 3);
 		matrix.setValue(9, 7, 6);
 		matrix.setValue(9, 9, 5);
-		Loeser loeser = new Loeser(matrix);
+		Solver loeser = new Solver(matrix);
 		try {
-			loeser.fuelleMatrix();
+			loeser.fillMatrix();
 		} catch (KeineLoesungException e) {
 			e.printStackTrace();
 		}
 		try {
-			loeser.pruefeSektoren();
+			loeser.checkSectors();
 		} catch (KeineLoesungException e) {
 			e.printStackTrace();
 		}

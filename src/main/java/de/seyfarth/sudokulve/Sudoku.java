@@ -57,10 +57,10 @@ public class Sudoku {
 		matrix.setValue(9, 4, 3);
 		matrix.setValue(9, 7, 6);
 		matrix.setValue(9, 9, 5);
-		Loeser loeser = new Loeser(matrix);
+		Solver loeser = new Solver(matrix);
 		try {
-			loeser.fuelleMatrix();
-			loeser.pruefeSektoren();
+			loeser.fillMatrix();
+			loeser.checkSectors();
 		} catch (KeineLoesungException e) {
 			log.log(Level.SEVERE, "Für das Sudoku wurde keine Loesung gefunden.", e);
 		}
