@@ -1,195 +1,240 @@
-/**
- * 
- */
 package de.seyfarth.sudokulve;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-/**
- * @author barbara
- * 
- */
 public class FieldTest {
 
-	/**
-	 * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int)}.
-	 */
-	@Test
-	public final void testField() {
-		// Erzeuge ein Field, das in der 2. Spalte, 3. Zeile und Block 2 ist
-		Field test_feld = new Field(2, 3, 2, 4);
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Construct field with valid values.
+     */
+    @Test
+    public final void validFieldConstructor() {
+        Field field = new Field(2, 3, 2, 4);
 
-		// Check content of test_feld
-		assertEquals("Zeilennummer", 2, test_feld.getRow());
-		assertEquals("Spaltennummer", 3, test_feld.getColumn());
-		assertEquals("Blocknummer", 2, test_feld.getBlock());
-	}
+        assertEquals(2, field.getRow());
+        assertEquals(3, field.getColumn());
+        assertEquals(2, field.getBlock());
+        assertEquals(4, field.getDimension());
+    }
 
-	/**
-	 * Test method for {@link de.seyfarth.sudokulve.Field#fillWithAllNumbers(int)}
-	 * {@link de.seyfarth.sudokulve.Field#remove(int)}
-	 * {@link de.seyfarth.sudokulve.Field#isEmpty()}
-	 * {@link de.seyfarth.sudokulve.Field#hasSolution()}
-	 */
-	@Test
-	public final void testFuelleMitAllenZiffernUndLeereDann() {
-		Field test_feld = new Field(2, 3, 2, 4);
-		boolean warEnthalten;
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Construct field with row index out of dimension bounds.
+     */
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public final void illegalUpperRowArgument() {
+        Field field = new Field(4, 3, 2, 4);
+    }
 
-		// F�lle das Field mit den Ziffern 1, 2, 3, 4
-		test_feld.fillWithAllNumbers();
-		// Entferne eine Ziffer, die nie in der Liste war
-		warEnthalten = test_feld.remove(7);
-		assertFalse(warEnthalten);
-		// Und wieder f�llen... es sollten immer noch nur die Ziffern 1, 2, 3, 4
-		// genau einmal enthalten
-		test_feld.fillWithAllNumbers();
-		// Entferne Ziffer 3
-		warEnthalten = test_feld.remove(3);
-		assertTrue(warEnthalten);
-		// Field hat mehr als eine Ziffer
-		assertFalse(test_feld.isEmpty());
-		assertFalse(test_feld.hasSolution());
-		// Entferne Ziffer 3, da die Ziffer schon entfernt wurde, wurde auch
-		// nichts entfernt
-		warEnthalten = test_feld.remove(3);
-		assertFalse(warEnthalten);
-		// Entferne Ziffer 1
-		warEnthalten = test_feld.remove(1);
-		assertTrue(warEnthalten);
-		// Field hat mehr als eine Ziffer
-		assertFalse(test_feld.isEmpty());
-		assertFalse(test_feld.hasSolution());
-		// Entferne Ziffer 4
-		warEnthalten = test_feld.remove(4);
-		assertTrue(warEnthalten);
-		// Field hat mehr jetzt genau eine Ziffer, n�mlich die 2
-		assertFalse(test_feld.isEmpty());
-		assertTrue(test_feld.hasSolution());
-		// Entferne Ziffer 1, da die Ziffer schon entfernt wurde, wurde auch
-		// nichts entfernt
-		warEnthalten = test_feld.remove(1);
-		assertFalse(warEnthalten);
-		// Entferne nun die letzte Ziffer, die 2
-		warEnthalten = test_feld.remove(2);
-		assertTrue(warEnthalten);
-		// Field ist jetzt leer
-		assertTrue(test_feld.isEmpty());
-		assertFalse(test_feld.hasSolution());
-		// Entferne Ziffer 3, da die Ziffer schon entfernt wurde, wurde auch
-		// nichts entfernt
-		warEnthalten = test_feld.remove(3);
-		assertFalse(warEnthalten);
-		// Field ist weiterhin leer
-		assertTrue(test_feld.isEmpty());
-		assertFalse(test_feld.hasSolution());
-	}
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Construct field with negative row index.
+     */
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public final void illegalLowerRowArgument() {
+        Field field = new Field(-1, 3, 2, 4);
+    }
 
-	/**
-	 * Test method for {@link de.seyfarth.sudokulve.Field#getSolution()}
-	 */
-	@Test
-	public final void testHoleEinzigenWert() {
-		Field test_feld = new Field(2, 3, 2, 4);
-		boolean warEnthalten;
-		boolean richtigeExceptionAufgetreten;
-		int ziffer = 0;
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Construct field with column index out of dimension bounds.
+     */
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public final void illegalUpperColumnArgument() {
+        Field field = new Field(2, 4, 2, 4);
+    }
 
-		// Erstmal f�llen wir das Field mit den Ziffern 1, 2, 3, 4
-		test_feld.fillWithAllNumbers();
-		// Dann entfernen wir zwei von den vier Ziffern
-		warEnthalten = test_feld.remove(4);
-		assertTrue(warEnthalten);
-		warEnthalten = test_feld.remove(1);
-		assertTrue(warEnthalten);
-		// Jetzt versuchen wir mal, die einzige Ziffer zu holen, obwohl
-		// eigentlich noch zwei Ziffern im Field sind
-		try {
-			ziffer = test_feld.getSolution();
-			// Da hier eine Exception auftreten muss, darf das Programm dieses
-			// assert nie ausführen!
-			richtigeExceptionAufgetreten = false;
-		} catch (IllegalStateException e) {
-			// Diese Exception muesste auftreten
-			richtigeExceptionAufgetreten = e.getMessage().equals("There is more than one possible solution.");
-		}
-		assertTrue(richtigeExceptionAufgetreten);
-		// Jetzt entfernen wir noch eine Ziffer, so dass nur noch eine Ziffer im
-		// Field ist
-		warEnthalten = test_feld.remove(2);
-		assertTrue(warEnthalten);
-		// Jetzt m�sste eigentlich noch genau eine Ziffer drin sein
-		assertTrue(test_feld.hasSolution());
-		// Und diese Ziffer ist eine 3
-		try {
-			ziffer = test_feld.getSolution();
-			// Da hier keine Exception auftreten darf, geht es einfach weiter
-			richtigeExceptionAufgetreten = true;
-		} catch (IllegalStateException e) {
-			// Diese Exception darf hier nicht auftreten
-			richtigeExceptionAufgetreten = false;
-		}
-		assertTrue(richtigeExceptionAufgetreten);
-		assertTrue(ziffer == 3);
-		// Jetzt entfernen wir auch noch die 3
-		test_feld.remove(3);
-		// Das Field muss leer sein
-		assertTrue(test_feld.isEmpty());
-		// Das Lesen des Wertes muss eine Exception ausloesen
-		try {
-			test_feld.getSolution();
-			// Da hier eine Exception auftreten muss, darf das Programm diese
-			// Zuweisung nie ausfuehren!
-			richtigeExceptionAufgetreten = false;
-		} catch (IllegalStateException e) {
-			// Diese Exception muss auftreten
-			richtigeExceptionAufgetreten = e.getMessage().equals("There is no possible solution.");
-		}
-		assertTrue(richtigeExceptionAufgetreten);
-	}
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Construct field with negative column index.
+     */
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public final void illegalLowerColumnArgument() {
+        Field field = new Field(2, -1, 2, 4);
+    }
 
-	/**
-	 * Test method for {@link de.seyfarth.sudokulve.Field#getSolution()}
-	 * {@link de.seyfarth.sudokulve.Field#setSolution(int)}
-	 */
-	@Test
-	public final void testSetzeEinzigenWert() {
-		Field test_feld = new Field(2, 3, 2,4);
-		int ziffer = 0;
-		boolean richtigeExceptionAufgetreten;
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Construct field with block index out of dimension bounds.
+     */
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public final void illegalUpperBlockArgument() {
+        Field field = new Field(2, 3, 4, 4);
+    }
 
-		// Als erstes ueberpruefen wir, ob das Field leer ist
-		assertTrue(test_feld.isEmpty());
-		// Wir schreiben einen Wert hinein
-		test_feld.setSolution(234);
-		// Nun muss genau eine Ziffer/Zahl drin stehen
-		assertTrue(test_feld.hasSolution());
-		// Und diese Zahl muss die 234 sein
-		try {
-			ziffer = test_feld.getSolution();
-			// Da hier keine Exception auftreten darf, geht es einfach weiter
-			richtigeExceptionAufgetreten = true;
-		} catch (IllegalStateException e) {
-			richtigeExceptionAufgetreten = false;
-		}
-		assertTrue(richtigeExceptionAufgetreten);
-		assertTrue(ziffer == 234);
-		// Und setzen jetzt wieder genau eine Ziffer
-		test_feld.setSolution(3);
-		// Nun muss genau eine Zifferdrin stehen
-		assertTrue(test_feld.hasSolution());
-		// Und diese Ziffer muss die 3 sein
-		try {
-			ziffer = test_feld.getSolution();
-			// Da hier keine Exception auftreten darf, geht es einfach weiter
-			richtigeExceptionAufgetreten = true;
-		} catch (IllegalStateException e) {
-			// Diese Exception darf hier nicht auftreten
-			richtigeExceptionAufgetreten = false;
-		}
-		assertTrue(richtigeExceptionAufgetreten);
-		assertEquals(ziffer, 3);
-	}
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Construct field with negative block index.
+     */
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public final void illegalLowerBlockArgument() {
+        Field field = new Field(2, 3, -1, 4);
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#isEmpty()}.
+     */
+    @Test
+    public final void isEmpty() {
+        Field field = new Field(2, 3, 2, 4);
+        assertTrue(field.isEmpty());
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#isEmpty()}.
+     */
+    @Test
+    public final void fieldNotEmptyAllNumbers() {
+        Field field = new Field(2, 3, 2, 4);
+        field.fillWithAllNumbers();
+        assertFalse(field.isEmpty());
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#isEmpty()}.
+     */
+    @Test
+    public final void fieldNotEmptySolution() {
+        Field field = new Field(2, 3, 2, 4);
+        field.setSolution(1);
+        assertFalse(field.isEmpty());
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)} and
+     * {@link de.seyfarth.sudokulve.Field#getSolution()}.
+     */
+    @Test
+    public final void validSolution() {
+        Field field = new Field(2, 3, 2, 4);
+        field.setSolution(4);
+        assertEquals(4, field.getSolution());
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)}.
+     */
+    @Test
+    public final void setSolutionTwice() {
+        Field field = new Field(2, 3, 2, 4);
+        field.setSolution(4);
+        assertEquals(4, field.getSolution());
+        field.setSolution(2);
+        assertEquals(2, field.getSolution());
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)}.
+     */
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public final void solutionZero() {
+        Field field = new Field(2, 3, 2, 4);
+        field.setSolution(0);
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)}.
+     */
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public final void solutionOutOfBounds() {
+        Field field = new Field(2, 3, 2, 4);
+        field.setSolution(5);
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#fillWithAllNumbers()}.
+     */
+    @Test
+    public final void validFillWithAllNumbers() {
+        Field field = new Field(2, 3, 2, 4);
+        field.fillWithAllNumbers();
+        assertTrue(field.remove(1));
+        assertTrue(field.remove(3));
+        assertTrue(field.remove(2));
+        assertTrue(field.hasSolution());
+        assertTrue(field.remove(4));
+        assertTrue(field.isEmpty());
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)} and
+     * {@link de.seyfarth.sudokulve.Field#getSolution()}.
+     */
+    @Test
+    public final void validHasSolution() {
+        Field field = new Field(2, 3, 2, 4);
+        field.setSolution(1);
+        assertTrue(field.hasSolution());
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#hasSolution()}.
+     */
+    @Test
+    public final void solutionOfEmptyField() {
+        Field field = new Field(2, 3, 2, 4);
+        assertFalse(field.hasSolution());
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#getSolution()}.
+     */
+    @Test(expected = java.lang.IllegalStateException.class)
+    public final void getSolutionOfEmptyField() {
+        Field field = new Field(2, 3, 2, 4);
+        field.getSolution();
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#hasSolution()}.
+     */
+    @Test
+    public final void solutionOfFilledField() {
+        Field field = new Field(2, 3, 2, 4);
+        field.fillWithAllNumbers();
+        assertFalse(field.hasSolution());
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#getSolution()}.
+     */
+    @Test(expected = java.lang.IllegalStateException.class)
+    public final void getSolutionOfFilledField() {
+        Field field = new Field(2, 3, 2, 4);
+        field.fillWithAllNumbers();
+        field.getSolution();
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#remove(int)}.
+     */
+    @Test
+    public final void removeTwice() {
+        Field field = new Field(2, 3, 2, 4);
+        field.setSolution(2);
+        assertTrue(field.remove(2));
+        assertFalse(field.remove(2));
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#remove(int)}.
+     */
+    @Test
+    public final void removeFromFilled() {
+        Field field = new Field(2, 3, 2, 4);
+        field.setSolution(1);
+        assertFalse(field.remove(2));
+    }
+
+    /**
+     * Test method for {@link de.seyfarth.sudokulve.Field#remove(int)}.
+     */
+    @Test
+    public final void removeFromEmpty() {
+        Field field = new Field(2, 3, 2, 4);
+        assertFalse(field.remove(3));
+    }
 }

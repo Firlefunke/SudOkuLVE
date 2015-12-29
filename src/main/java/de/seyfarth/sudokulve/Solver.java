@@ -61,16 +61,9 @@ public class Solver {
     }
 
     private void removeFrom(ArrayList<Field> sector, Field currentField) {
-        for (Field field : sector) {
-            if (field == currentField) {
-                continue;
-            }
-            if (field.hasSolution()) {
-                int number;
-                number = field.getSolution();
-                currentField.remove(number);
-            }
-        }
+        sector.stream()
+                .filter((field) -> (field != currentField && field.hasSolution()))
+                .forEach((field) -> currentField.remove(field.getSolution()));
     }
 
     void checkSectors() throws NoSolutionException {
