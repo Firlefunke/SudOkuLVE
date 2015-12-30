@@ -11,6 +11,30 @@
         <name>Familie Seyfarth</name>
         <url>https://privat.seyfarth.de/</url>
     </organization>
+	<developers>
+		<developer>
+			<id>seyfahni</id>
+			<name>Niklas Seyfarth</name>
+			<email>niklas@seyfarth.de</email>
+			<url>https://privat.seyfarth.de/niklas/</url>
+			<timezone>1</timezone>
+			<roles>
+				<role>Manager</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>Lya</id>
+			<name>Barbara Seyfarth</name>
+			<email>barbara@seyfarth.de</email>
+			<url>https://privat.seyfarth.de/barbara/</url>
+			<timezone>1</timezone>
+			<roles>
+				<role>Manager</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
     <scm>
         <connection>scm:git:git://redmine/SudOkulVE.git</connection>
         <developerConnection>scm:git:ssh://git@redmine/opt/git/SudOkuLVE.git</developerConnection>
