@@ -3,14 +3,12 @@ package de.seyfarth.sudokulve;
 import java.util.ArrayList;
 import de.seyfarth.sudokulve.exceptions.*;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Solver {
 
     private static final Logger LOG = Logger.getLogger("Solver");
 
-    Field currentField;
     Matrix sudoku;
     List<Field> solvedFields;
 
@@ -21,19 +19,19 @@ public class Solver {
 
     void fillMatrix() throws NoSolutionException {
         for (Field[] row : sudoku.getMatrix()) {
-            for (Field editedField : row) {
-                if (editedField.hasSolution()) {
+            for (Field current : row) {
+                if (current.hasSolution()) {
                     continue;
                 }
-                if (editedField.isEmpty()) {
-                    editedField.fillWithAllNumbers();
-                    removeFromSectors(editedField);
+                if (current.isEmpty()) {
+                    current.fillWithAllNumbers();
+                    removeFromSectors(current);
                 }
-                if (editedField.isEmpty()) {
+                if (current.isEmpty()) {
                     throw new NoSolutionException();
                 }
-                if (editedField.hasSolution()) {
-                    solvedFields.add(editedField);
+                if (current.hasSolution()) {
+                    solvedFields.add(current);
                 }
             }
         }
@@ -71,24 +69,18 @@ public class Solver {
 
     void checkSectors() throws NoSolutionException {
         while (!solvedFields.isEmpty()) {
-            currentField = solvedFields.remove(0);
-            try {
-                deleteFromSectors(currentField);
-            } catch (MultipleNumbersException e) {
-                LOG.log(Level.SEVERE, "Trotz Ueberpruefung mehrere Ziffern enthalten.", e);
-            }
+            Field currentField = solvedFields.remove(0);
+            deleteFromSectors(currentField);
         }
     }
 
-    private void deleteFromSectors(Field currentField) throws NoSolutionException,
-            MultipleNumbersException {
+    private void deleteFromSectors(Field currentField) throws NoSolutionException {
         deleteFromRow(currentField);
         deleteFromColumn(currentField);
         deleteFromBlock(currentField);
     }
 
-    private void deleteFromRow(Field currentField) throws NoSolutionException,
-            MultipleNumbersException {
+    private void deleteFromRow(Field currentField) throws NoSolutionException {
         int index = currentField.getRow();
         List<Field> row = sudoku.getRow(index);
         deleteFrom(row, currentField);
@@ -106,8 +98,7 @@ public class Solver {
         deleteFrom(block, currentField);
     }
 
-    private void deleteFrom(List<Field> sector, Field currentField)
-            throws NoSolutionException {
+    private void deleteFrom(List<Field> sector, Field currentField) throws NoSolutionException {
 
         int number = currentField.getSolution();
         for (Field field : sector) {
