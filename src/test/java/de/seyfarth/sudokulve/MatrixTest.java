@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.seyfarth.sudokulve;
 
 import java.util.List;
@@ -16,7 +11,7 @@ import static org.junit.Assert.*;
 public class MatrixTest {
 
     /**
-     * Test or {@link de.seyfarth.sudokulve.Matrix#Matrix(int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Matrix#Matrix(int, int)}.
      */
     @Test
     public void validMatrix() {
@@ -25,7 +20,7 @@ public class MatrixTest {
     }
 
     /**
-     * Test or {@link de.seyfarth.sudokulve.Matrix#Matrix(int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Matrix#Matrix(int, int)}.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void matrixWithNegativeFirstArgument() {
@@ -33,7 +28,7 @@ public class MatrixTest {
     }
 
     /**
-     * Test or {@link de.seyfarth.sudokulve.Matrix#Matrix(int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Matrix#Matrix(int, int)}.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void matrixWithNegativeSecondArgument() {
@@ -41,7 +36,7 @@ public class MatrixTest {
     }
 
     /**
-     * Test or {@link de.seyfarth.sudokulve.Matrix#Matrix(int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Matrix#Matrix(int, int)}.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void matrixDimensionOverflow() {
@@ -368,5 +363,87 @@ public class MatrixTest {
     public void getBlockUpperOuterBoundary() {
         Matrix matrix = new Matrix(3, 2);
         matrix.getBlock(6);
+    }
+    
+    /**
+     * Test for {@link de.seyfarth.sudokulve.Matrix#fillEmptyFields()}.
+     */
+    @Test
+    public void fillEmptyFieldsWithSolutionInMatrix() {
+        Matrix matrix = new Matrix(3,2);
+        matrix.setValue(2, 1, 2);
+        matrix.fillEmptyFields();
+
+        List<Field> row;
+        int dimension = matrix.getDimension();
+        for (int rowIndex=0; rowIndex< dimension; rowIndex++) {
+            row = matrix.getRow(rowIndex);
+            row.stream().forEach(field -> assertFalse(field.isEmpty()));
+        }
+        row = matrix.getRow(2);
+        assertTrue(row.get(1).hasSolution());
+    }
+    
+    /**
+     * Test for {@link de.seyfarth.sudokulve.Matrix#fillEmptyFields()}.
+     */
+    @Test
+    public void fillEmptyFieldsAllEmpty() {
+        Matrix matrix = new Matrix(3,2);
+       matrix.fillEmptyFields();
+
+        List<Field> row;
+        int dimension = matrix.getDimension();
+        for (int rowIndex=0; rowIndex< dimension; rowIndex++) {
+            row = matrix.getRow(rowIndex);
+            row.stream().forEach(field -> assertFalse(field.isEmpty() && field.hasSolution()));
+        }
+    }
+    
+    /**
+     * Test for {@link de.seyfarth.sudokulve.Matrix#getSolvedFields()}.
+     */
+    @Test
+    public void getSolvedFieldsWithoutSolvedFields() {
+        Matrix matrix = new Matrix(3,2);
+        List<Field> solved = matrix.getSolvedFields();
+
+        assertTrue(solved.isEmpty());
+    }
+    
+    /**
+     * Test for {@link de.seyfarth.sudokulve.Matrix#getSolvedFields()}.
+     */
+    @Test
+    public void getSolvedFieldsWithOneSolvedField() {
+        Matrix matrix = new Matrix(3,2);
+        matrix.setValue(2, 1, 2);
+        List<Field> solved = matrix.getSolvedFields();
+
+        assertEquals(1, solved.size());
+        Field field = solved.get(0);
+        assertEquals(2, field.getRowIndex());
+        assertEquals(1, field.getColumnIndex());
+    }
+    
+    /**
+     * Test for {@link de.seyfarth.sudokulve.Matrix#getSolvedFields()}.
+     */
+    @Test
+    public void getSolvedFieldFromSolvedMatrix() {
+        Matrix matrix = new Matrix(2,2);
+        matrix.setValue(0, 0, 1);
+        matrix.setValue(0, 1, 2);
+        matrix.setValue(1, 0, 2);
+        matrix.setValue(1, 1, 1);
+        List<Field> solved = matrix.getSolvedFields();
+
+        assertEquals(4, solved.size());
+        Field field = solved.get(0);
+        assertEquals(0, field.getRowIndex());
+        assertEquals(0, field.getColumnIndex());
+        field = solved.get(3);
+        assertEquals(1, field.getRowIndex());
+        assertEquals(1, field.getColumnIndex());
     }
 }
