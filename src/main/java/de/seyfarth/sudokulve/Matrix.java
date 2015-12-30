@@ -10,8 +10,8 @@ import java.util.List;
  * Each Sudoku matrix is structured into blocks. The dimension of the Sudoku matrix equals the
  * number of rows, the number of columns and the number of blocks of the matrix.
  * <br>
- * The block dimensions determine the dimensions of the Sudoku matrix. If a block has two rows
- * and three columns, the Sudoku matrix has the dimension 6 (6 rows and columns with 2x3 blocks).
+ * The block dimensions determine the dimensions of the Sudoku matrix. If a block has two rows and
+ * three columns, the Sudoku matrix has the dimension 6 (6 rows and columns with 2x3 blocks).
  * <br>
  * A standard Sudoku has a matrix with 9 rows, 9 columns and 3x3 blocks.
  */
@@ -66,8 +66,8 @@ public class Matrix {
     }
 
     /**
-     * Writes a solution into the given field of the Sudoku matrix. This function is mainly used
-     * for the initialisation of the Matrix.
+     * Writes a solution into the given field of the Sudoku matrix. This function is mainly used for
+     * the initialisation of the Matrix.
      *
      * @param row row number of field
      * @param column column number of field
@@ -79,12 +79,30 @@ public class Matrix {
             throw new IllegalArgumentException("Matrix index must be greater or equal than 0.");
         }
         if (row >= dimension || column >= dimension) {
-            throw new IllegalArgumentException("Matrix index must be smaller than "+ dimension + ".");
+            throw new IllegalArgumentException("Matrix index must be smaller than " + dimension + ".");
         }
         if (value <= 0 || value > dimension) {
             throw new IllegalArgumentException("The value may only be in the intervall [1, " + dimension + "].");
         }
         matrix[row][column].setSolution(value);
+    }
+
+    /**
+     * Fills all empty field of the matrix with all numbers.
+     */
+    public void fillEmptyFields() {
+        Arrays.stream(matrix).forEach(row -> fillRowsEmptyFields(row));
+    }
+
+    /**
+     * Fills all empty field of a row with all numbers.
+     *
+     * @param row Row of matrix to fill
+     */
+    private void fillRowsEmptyFields(Field[] row) {
+        Arrays.stream(row)
+                .filter(field -> field.isEmpty())
+                .forEach(field -> field.fillWithAllNumbers());
     }
 
     /**
@@ -100,7 +118,7 @@ public class Matrix {
             throw new IllegalArgumentException("Matrix index must be greater or equal than 0.");
         }
         if (row >= dimension || column >= dimension) {
-            throw new IllegalArgumentException("Matrix index must be smaller than "+ dimension + ".");
+            throw new IllegalArgumentException("Matrix index must be smaller than " + dimension + ".");
         }
         Field field = matrix[row][column];
         if (field.hasSolution()) {
@@ -108,6 +126,30 @@ public class Matrix {
         } else {
             return 0;
         }
+    }
+
+    /**
+     * Get all fields from matrix, that have a solution.
+     *
+     * @return List with all solved fields in matrix
+     */
+    public List<Field> getSolvedFields() {
+        List<Field> solved = new ArrayList<>();
+        Arrays.stream(matrix).forEach(row -> getRowsSolvedFields(row, solved));
+
+        return solved;
+    }
+
+    /**
+     * Get all fields from matrix row, that have a solution.
+     *
+     * @param row row of matrix
+     * @param solved list with references to solved fields
+     */
+    private void getRowsSolvedFields(Field[] row, List<Field> solved) {
+        Arrays.stream(row)
+                .filter((field) -> field.hasSolution())
+                .forEach(current -> solved.add(current));
     }
 
     /**
@@ -120,8 +162,8 @@ public class Matrix {
     }
 
     /**
-     * Constructs a list containing all elements of the given row.
-     * This list is ascending ordered by column index.
+     * Constructs a list containing all elements of the given row. This list is ascending ordered by
+     * column index.
      *
      * @param index row index<br>Range: [0, dimension - 1]
      * @return List with all Fields of row
@@ -131,14 +173,14 @@ public class Matrix {
             throw new IllegalArgumentException("Row index must be greater or equal than 0.");
         }
         if (index >= dimension) {
-            throw new IllegalArgumentException("Row index must be smaller than "+ dimension + ".");
+            throw new IllegalArgumentException("Row index must be smaller than " + dimension + ".");
         }
         return Arrays.asList(matrix[index]);
     }
 
     /**
-     * Constructs a list containing all elements of the given column.
-     * This list is ascending ordered by row index.
+     * Constructs a list containing all elements of the given column. This list is ascending ordered
+     * by row index.
      *
      * @param index column index<br>Range: [0, dimension - 1]
      * @return List with all Fields of column
@@ -148,7 +190,7 @@ public class Matrix {
             throw new IllegalArgumentException("Column index must be greater or equal than 0.");
         }
         if (index >= dimension) {
-            throw new IllegalArgumentException("Column index must be smaller than "+ dimension + ".");
+            throw new IllegalArgumentException("Column index must be smaller than " + dimension + ".");
         }
 
         List<Field> column = new ArrayList<>();
@@ -159,8 +201,8 @@ public class Matrix {
     }
 
     /**
-     * Constructs a list containing all elements of the given block.
-     * This list is ascending ordered primary by row index, then by column index.
+     * Constructs a list containing all elements of the given block. This list is ascending ordered
+     * primary by row index, then by column index.
      *
      * @param index block index<br>Range: [0, dimension - 1]
      * @return List with all Fields of block
@@ -170,7 +212,7 @@ public class Matrix {
             throw new IllegalArgumentException("Block index must be greater or equal than 0.");
         }
         if (index >= dimension) {
-            throw new IllegalArgumentException("Block index must be smaller than "+ dimension + ".");
+            throw new IllegalArgumentException("Block index must be smaller than " + dimension + ".");
         }
 
         List<Field> block = new ArrayList<>();
@@ -183,17 +225,5 @@ public class Matrix {
             }
         }
         return block;
-    }
-
-    /**
-     * Get the two-dimensional array that represents the sudoku matrix.
-     * This array can be edited.
-     * 
-     * @deprecated returning private member
-     * @return the array representing the sudoku matrix
-     */
-    @Deprecated
-    public Field[][] getMatrix() {
-        return matrix;
     }
 }

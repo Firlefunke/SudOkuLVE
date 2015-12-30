@@ -197,7 +197,7 @@ public class MatrixTest {
         for(Field field : row) {
             assertTrue(field.hasSolution());
             assertEquals(ii, field.getSolution());
-            assertEquals(3, field.getRow());
+            assertEquals(3, field.getRowIndex());
             ii++;
         }
     }
@@ -261,7 +261,7 @@ public class MatrixTest {
         for(Field field : column) {
             assertTrue(field.hasSolution());
             assertEquals(ii, field.getSolution());
-            assertEquals(2, field.getColumn());
+            assertEquals(2, field.getColumnIndex());
             ii++;
         }
     }
@@ -325,7 +325,7 @@ public class MatrixTest {
         for(Field field : block) {
             assertTrue(field.hasSolution());
             assertEquals(ii, field.getSolution());
-            assertEquals(3, field.getBlock());
+            assertEquals(3, field.getBlockIndex());
             ii++;
         }
     }

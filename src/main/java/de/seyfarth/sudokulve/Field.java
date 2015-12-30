@@ -116,7 +116,7 @@ public class Field {
      *
      * @return row index
      */
-    public int getRow() {
+    public int getRowIndex() {
         return row;
     }
 
@@ -125,7 +125,7 @@ public class Field {
      *
      * @return column index
      */
-    public int getColumn() {
+    public int getColumnIndex() {
         return column;
     }
 
@@ -134,7 +134,7 @@ public class Field {
      *
      * @return block index
      */
-    public int getBlock() {
+    public int getBlockIndex() {
         return block;
     }
 

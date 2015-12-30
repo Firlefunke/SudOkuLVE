@@ -14,9 +14,9 @@ public class FieldTest {
     public final void validFieldConstructor() {
         Field field = new Field(2, 3, 2, 4);
 
-        assertEquals(2, field.getRow());
-        assertEquals(3, field.getColumn());
-        assertEquals(2, field.getBlock());
+        assertEquals(2, field.getRowIndex());
+        assertEquals(3, field.getColumnIndex());
+        assertEquals(2, field.getBlockIndex());
         assertEquals(4, field.getDimension());
     }
 
