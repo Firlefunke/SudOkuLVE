@@ -3,11 +3,8 @@ package de.seyfarth.sudokulve;
 import java.util.ArrayList;
 import de.seyfarth.sudokulve.exceptions.*;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class Solver {
-
-    private static final Logger LOG = Logger.getLogger("Solver");
 
     Matrix sudoku;
     List<Field> solvedFields;
