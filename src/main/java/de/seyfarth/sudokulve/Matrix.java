@@ -22,6 +22,12 @@ public class Matrix {
     private final int numberColumnsPerBlock;
     private final Field[][] matrix;
 
+    /**
+     * Constructs a new Matrix with the dimension {@code blockRows * blockColumns}.
+     *
+     * @param blockRows number of rows per block
+     * @param blockColumns number of columns per block
+     */
     public Matrix(int blockRows, int blockColumns) {
         if (blockRows < 1 || blockColumns < 1) {
             throw new IllegalArgumentException("The block size must be greater than zero.");
@@ -104,10 +110,22 @@ public class Matrix {
         }
     }
 
+    /**
+     * Get the dimension of the created sudoku matrix.
+     *
+     * @return dimension
+     */
     public int getDimension() {
         return dimension;
     }
 
+    /**
+     * Constructs a list containing all elements of the given row.
+     * This list is ascending ordered by column index.
+     *
+     * @param index row index<br>Range: [0, dimension - 1]
+     * @return List with all Fields of row
+     */
     public List<Field> getRow(int index) {
         if (index < 0) {
             throw new IllegalArgumentException("Row index must be greater or equal than 0.");
@@ -118,6 +136,13 @@ public class Matrix {
         return Arrays.asList(matrix[index]);
     }
 
+    /**
+     * Constructs a list containing all elements of the given column.
+     * This list is ascending ordered by row index.
+     *
+     * @param index column index<br>Range: [0, dimension - 1]
+     * @return List with all Fields of column
+     */
     public List<Field> getColumn(int index) {
         if (index < 0) {
             throw new IllegalArgumentException("Column index must be greater or equal than 0.");
@@ -133,6 +158,13 @@ public class Matrix {
         return column;
     }
 
+    /**
+     * Constructs a list containing all elements of the given block.
+     * This list is ascending ordered primary by row index, then by column index.
+     *
+     * @param index block index<br>Range: [0, dimension - 1]
+     * @return List with all Fields of block
+     */
     public List<Field> getBlock(int index) {
         if (index < 0) {
             throw new IllegalArgumentException("Block index must be greater or equal than 0.");
@@ -153,6 +185,14 @@ public class Matrix {
         return block;
     }
 
+    /**
+     * Get the two-dimensional array that represents the sudoku matrix.
+     * This array can be edited.
+     * 
+     * @deprecated returning private member
+     * @return the array representing the sudoku matrix
+     */
+    @Deprecated
     public Field[][] getMatrix() {
         return matrix;
     }
