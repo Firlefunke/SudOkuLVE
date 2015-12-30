@@ -10,12 +10,8 @@ public class Sudoku {
 
     public static void main(String[] args) {
         Matrix matrix;
-        try {
-            matrix = new Matrix(9, 3, 3);
-        } catch (NoSolutionException e) {
-            LOG.log(Level.SEVERE, "Ungueltige Dimensionen oder Block-Laengen bzw. Block-Hoehen angegeben.", e);
-            return;
-        }
+
+        matrix = new Matrix(3, 3);
 
         matrix.setValue(1, 1, 4);
         matrix.setValue(1, 9, 9);

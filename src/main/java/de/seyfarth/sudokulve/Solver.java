@@ -2,6 +2,7 @@ package de.seyfarth.sudokulve;
 
 import java.util.ArrayList;
 import de.seyfarth.sudokulve.exceptions.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,7 +12,7 @@ public class Solver {
 
     Field currentField;
     Matrix sudoku;
-    ArrayList<Field> solvedFields;
+    List<Field> solvedFields;
 
     public Solver(Matrix matrix) {
         sudoku = matrix;
@@ -19,19 +20,21 @@ public class Solver {
     }
 
     void fillMatrix() throws NoSolutionException {
-        for (Field editedField : sudoku.matrix()) {
-            if (editedField.hasSolution()) {
-                continue;
-            }
-            if (editedField.isEmpty()) {
-                editedField.fillWithAllNumbers();
-                removeFromSectors(editedField);
-            }
-            if (editedField.isEmpty()) {
-                throw new NoSolutionException();
-            }
-            if (editedField.hasSolution()) {
-                solvedFields.add(editedField);
+        for (Field[] row : sudoku.getMatrix()) {
+            for (Field editedField : row) {
+                if (editedField.hasSolution()) {
+                    continue;
+                }
+                if (editedField.isEmpty()) {
+                    editedField.fillWithAllNumbers();
+                    removeFromSectors(editedField);
+                }
+                if (editedField.isEmpty()) {
+                    throw new NoSolutionException();
+                }
+                if (editedField.hasSolution()) {
+                    solvedFields.add(editedField);
+                }
             }
         }
     }
@@ -44,23 +47,23 @@ public class Solver {
 
     private void removeFromRow(Field currentField) {
         int index = currentField.getRow();
-        ArrayList<Field> row = sudoku.getRow(index);
+        List<Field> row = sudoku.getRow(index);
         removeFrom(row, currentField);
     }
 
     private void removeFromColumn(Field currentField) {
         int index = currentField.getColumn();
-        ArrayList<Field> column = sudoku.getColumn(index);
+        List<Field> column = sudoku.getColumn(index);
         removeFrom(column, currentField);
     }
 
     private void removeFromBlock(Field currentField) {
         int index = currentField.getBlock();
-        ArrayList<Field> block = sudoku.getBlock(index);
+        List<Field> block = sudoku.getBlock(index);
         removeFrom(block, currentField);
     }
 
-    private void removeFrom(ArrayList<Field> sector, Field currentField) {
+    private void removeFrom(List<Field> sector, Field currentField) {
         sector.stream()
                 .filter((field) -> (field != currentField && field.hasSolution()))
                 .forEach((field) -> currentField.remove(field.getSolution()));
@@ -87,23 +90,23 @@ public class Solver {
     private void deleteFromRow(Field currentField) throws NoSolutionException,
             MultipleNumbersException {
         int index = currentField.getRow();
-        ArrayList<Field> row = sudoku.getRow(index);
+        List<Field> row = sudoku.getRow(index);
         deleteFrom(row, currentField);
     }
 
     private void deleteFromColumn(Field currentField) throws NoSolutionException {
         int index = currentField.getColumn();
-        ArrayList<Field> column = sudoku.getColumn(index);
+        List<Field> column = sudoku.getColumn(index);
         deleteFrom(column, currentField);
     }
 
     private void deleteFromBlock(Field currentField) throws NoSolutionException {
         int index = currentField.getBlock();
-        ArrayList<Field> block = sudoku.getBlock(index);
+        List<Field> block = sudoku.getBlock(index);
         deleteFrom(block, currentField);
     }
 
-    private void deleteFrom(ArrayList<Field> sector, Field currentField)
+    private void deleteFrom(List<Field> sector, Field currentField)
             throws NoSolutionException {
 
         int number = currentField.getSolution();

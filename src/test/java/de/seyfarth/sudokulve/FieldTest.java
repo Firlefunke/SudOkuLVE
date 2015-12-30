@@ -7,7 +7,7 @@ import org.junit.Test;
 public class FieldTest {
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
      * Construct field with valid values.
      */
     @Test
@@ -21,7 +21,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
      * Construct field with row index out of dimension bounds.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -30,7 +30,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
      * Construct field with negative row index.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -39,7 +39,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
      * Construct field with column index out of dimension bounds.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -48,7 +48,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
      * Construct field with negative column index.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -57,7 +57,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
      * Construct field with block index out of dimension bounds.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -66,7 +66,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
      * Construct field with negative block index.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -75,7 +75,16 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#isEmpty()}.
+     * Test for {@link de.seyfarth.sudokulve.Field#Field(int, int, int, int)}.
+     * Construct field with dimension smaller than one.
+     */
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public final void illegalDimensionArgument() {
+        Field field = new Field(2, 3, 5, 0);
+    }
+
+    /**
+     * Test for {@link de.seyfarth.sudokulve.Field#isEmpty()}.
      */
     @Test
     public final void isEmpty() {
@@ -84,7 +93,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#isEmpty()}.
+     * Test for {@link de.seyfarth.sudokulve.Field#isEmpty()}.
      */
     @Test
     public final void fieldNotEmptyAllNumbers() {
@@ -94,7 +103,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#isEmpty()}.
+     * Test for {@link de.seyfarth.sudokulve.Field#isEmpty()}.
      */
     @Test
     public final void fieldNotEmptySolution() {
@@ -104,7 +113,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)} and
+     * Test for {@link de.seyfarth.sudokulve.Field#setSolution(int)} and
      * {@link de.seyfarth.sudokulve.Field#getSolution()}.
      */
     @Test
@@ -115,7 +124,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#setSolution(int)}.
      */
     @Test
     public final void setSolutionTwice() {
@@ -127,7 +136,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#setSolution(int)}.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
     public final void solutionZero() {
@@ -136,7 +145,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#setSolution(int)}.
      */
     @Test(expected = java.lang.IllegalArgumentException.class)
     public final void solutionOutOfBounds() {
@@ -145,7 +154,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#fillWithAllNumbers()}.
+     * Test for {@link de.seyfarth.sudokulve.Field#fillWithAllNumbers()}.
      */
     @Test
     public final void validFillWithAllNumbers() {
@@ -160,7 +169,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#setSolution(int)} and
+     * Test for {@link de.seyfarth.sudokulve.Field#setSolution(int)} and
      * {@link de.seyfarth.sudokulve.Field#getSolution()}.
      */
     @Test
@@ -171,7 +180,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#hasSolution()}.
+     * Test for {@link de.seyfarth.sudokulve.Field#hasSolution()}.
      */
     @Test
     public final void solutionOfEmptyField() {
@@ -180,7 +189,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#getSolution()}.
+     * Test for {@link de.seyfarth.sudokulve.Field#getSolution()}.
      */
     @Test(expected = java.lang.IllegalStateException.class)
     public final void getSolutionOfEmptyField() {
@@ -189,7 +198,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#hasSolution()}.
+     * Test for {@link de.seyfarth.sudokulve.Field#hasSolution()}.
      */
     @Test
     public final void solutionOfFilledField() {
@@ -199,7 +208,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#getSolution()}.
+     * Test for {@link de.seyfarth.sudokulve.Field#getSolution()}.
      */
     @Test(expected = java.lang.IllegalStateException.class)
     public final void getSolutionOfFilledField() {
@@ -209,7 +218,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#remove(int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#remove(int)}.
      */
     @Test
     public final void removeTwice() {
@@ -220,7 +229,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#remove(int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#remove(int)}.
      */
     @Test
     public final void removeFromFilled() {
@@ -230,7 +239,7 @@ public class FieldTest {
     }
 
     /**
-     * Test method for {@link de.seyfarth.sudokulve.Field#remove(int)}.
+     * Test for {@link de.seyfarth.sudokulve.Field#remove(int)}.
      */
     @Test
     public final void removeFromEmpty() {
