@@ -26,7 +26,7 @@ public class Field {
      * @param dimension maximum value that can be part of this field and size of the matrix this
      * field is part of<br>Range: greater than zero
      */
-    public Field(int row, int column, int block, int dimension) {
+    public Field(final int row, final int column, final int block, final int dimension) {
         if (dimension <= 0) {
             throw new IllegalArgumentException("Dimension greater than zero.");
         }
@@ -40,15 +40,15 @@ public class Field {
         this.column = column;
         this.block = block;
         this.dimension = dimension;
-        values = new TIntHashSet();
+        this.values = new TIntHashSet();
     }
 
     /**
      * Adds all numbers from 1 (inclusive) to dimension (inclusive) to this {@link Field}.
      */
     public void fillWithAllNumbers() {
-        for (int number = 1; number <= dimension; number++) {
-            values.add(number);
+        for (int number = 1; number <= this.dimension; number++) {
+            this.values.add(number);
         }
     }
 
@@ -58,25 +58,25 @@ public class Field {
      * @param number number to be removed
      * @return true if this field contained the given number
      */
-    public boolean remove(int number) {
-        return values.remove(number);
+    public boolean remove(final int number) {
+        return this.values.remove(number);
     }
 
     /**
      * Get the only value of the field.
      * <br>
      * Precondition: Check {@link #hasSolution()} before calling this method.
-     * 
-     * @throws IllegalStateException if there is not exactly one solution
+     *
      * @return the solution value
+     * @throws IllegalStateException if there is not exactly one solution
      */
     public int getSolution() {
-        if (values.size() > 1) {
+        if (this.values.size() > 1) {
             throw new IllegalStateException("There is more than one possible solution.");
-        } else if (values.size() < 1) {
+        } else if (this.values.size() < 1) {
             throw new IllegalStateException("There is no possible solution.");
         }
-        return values.iterator().next();
+        return this.values.iterator().next();
     }
 
     /**
@@ -85,7 +85,7 @@ public class Field {
      * @return result of check
      */
     public boolean isEmpty() {
-        return (values.isEmpty());
+        return this.values.isEmpty();
     }
 
     /**
@@ -94,7 +94,7 @@ public class Field {
      * @return result of check
      */
     public boolean hasSolution() {
-        return (values.size() == 1);
+        return this.values.size() == 1;
     }
 
     /**
@@ -103,12 +103,12 @@ public class Field {
      *
      * @param number solution number
      */
-    public void setSolution(int number) {
-        if (number <= 0 || number > dimension) {
+    public void setSolution(final int number) {
+        if (number <= 0 || number > this.dimension) {
             throw new IllegalArgumentException("Given number was out of bounds: " + number);
         }
-        values.clear();
-        values.add(number);
+        this.values.clear();
+        this.values.add(number);
     }
 
     /**
@@ -117,7 +117,7 @@ public class Field {
      * @return row index
      */
     public int getRowIndex() {
-        return row;
+        return this.row;
     }
 
     /**
@@ -126,7 +126,7 @@ public class Field {
      * @return column index
      */
     public int getColumnIndex() {
-        return column;
+        return this.column;
     }
 
     /**
@@ -135,7 +135,7 @@ public class Field {
      * @return block index
      */
     public int getBlockIndex() {
-        return block;
+        return this.block;
     }
 
     /**
@@ -145,6 +145,6 @@ public class Field {
      * @return dimension
      */
     public int getDimension() {
-        return dimension;
+        return this.dimension;
     }
 }

@@ -28,25 +28,26 @@ public class Matrix {
      * @param blockRows number of rows per block
      * @param blockColumns number of columns per block
      */
-    public Matrix(int blockRows, int blockColumns) {
+    public Matrix(final int blockRows, final int blockColumns) {
         if (blockRows < 1 || blockColumns < 1) {
             throw new IllegalArgumentException("The block size must be greater than zero.");
         }
 
         try {
-            dimension = Math.multiplyExact(blockRows, blockColumns);
+            this.dimension = Math.multiplyExact(blockRows, blockColumns);
         } catch (ArithmeticException ex) {
-            throw new IllegalArgumentException("Java can not handle this dimension. Choose smaller values.");
+            throw new IllegalArgumentException(
+                "Java can not handle this dimension. Choose smaller values.");
         }
 
-        matrix = new Field[dimension][dimension];
-        numberRowsPerBlock = blockRows;
-        numberColumnsPerBlock = blockColumns;
+        this.matrix = new Field[this.dimension][this.dimension];
+        this.numberRowsPerBlock = blockRows;
+        this.numberColumnsPerBlock = blockColumns;
 
-        for (int row = 0; row < dimension; row++) {
-            for (int column = 0; column < dimension; column++) {
-                int block = getBlockNumber(row, column);
-                matrix[row][column] = new Field(row, column, block, dimension);
+        for (int row = 0; row < this.dimension; row++) {
+            for (int column = 0; column < this.dimension; column++) {
+                final int block = getBlockNumber(row, column);
+                this.matrix[row][column] = new Field(row, column, block, this.dimension);
             }
         }
     }
@@ -59,39 +60,41 @@ public class Matrix {
      * @param column number of column in Sudoku matrix. Numbering of columns starts with 0.
      * @return block number of the given Sudoku field. Numbering of blocks start with 0.
      */
-    private int getBlockNumber(int row, int column) {
-        int blockRow = row / numberRowsPerBlock; // x-coordinate of block
-        int blockColumn = column / numberColumnsPerBlock; // y-coordinate of block
-        return (blockRow * numberRowsPerBlock + blockColumn);
+    private int getBlockNumber(final int row, final int column) {
+        final int blockRow = row / this.numberRowsPerBlock; // x-coordinate of block
+        final int blockColumn = column / this.numberColumnsPerBlock; // y-coordinate of block
+        return blockRow * this.numberRowsPerBlock + blockColumn;
     }
 
     /**
-     * Writes a solution into the given field of the Sudoku matrix. This function is mainly used for
-     * the initialisation of the Matrix.
+     * Writes a solution into the given field of the Sudoku matrix.
+     * This function is mainly used for the initialisation of the Matrix.
      *
      * @param row row number of field
      * @param column column number of field
      * @param value value of the solution of the given field
      * @throws IllegalArgumentException when a value is out of bounds
      */
-    public void setValue(int row, int column, int value) {
+    public void setValue(final int row, final int column, final int value) {
         if (row < 0 || column < 0) {
             throw new IllegalArgumentException("Matrix index must be greater or equal than 0.");
         }
-        if (row >= dimension || column >= dimension) {
-            throw new IllegalArgumentException("Matrix index must be smaller than " + dimension + ".");
+        if (row >= this.dimension || column >= this.dimension) {
+            throw new IllegalArgumentException("Matrix index must be smaller than "
+                + this.dimension + ".");
         }
-        if (value <= 0 || value > dimension) {
-            throw new IllegalArgumentException("The value may only be in the intervall [1, " + dimension + "].");
+        if (value <= 0 || value > this.dimension) {
+            throw new IllegalArgumentException("The value may only be in the intervall [1, "
+                + this.dimension + "].");
         }
-        matrix[row][column].setSolution(value);
+        this.matrix[row][column].setSolution(value);
     }
 
     /**
      * Fills all empty field of the matrix with all numbers.
      */
     public void fillEmptyFields() {
-        Arrays.stream(matrix).forEach(row -> fillRowsEmptyFields(row));
+        Arrays.stream(this.matrix).forEach(row -> fillRowsEmptyFields(row));
     }
 
     /**
@@ -99,28 +102,29 @@ public class Matrix {
      *
      * @param row Row of matrix to fill
      */
-    private void fillRowsEmptyFields(Field[] row) {
+    private void fillRowsEmptyFields(final Field[] row) {
         Arrays.stream(row)
-                .filter(field -> field.isEmpty())
-                .forEach(field -> field.fillWithAllNumbers());
+            .filter(field -> field.isEmpty())
+            .forEach(field -> field.fillWithAllNumbers());
     }
 
     /**
-     * Returns the value of the field identified by the given row and column number. If the field is
-     * not solved or if it is empty, returns 0.
+     * Returns the value of the field identified by the given row and column number.
+     * If the field is not solved or if it is empty, returns 0.
      *
      * @param row row number of field
      * @param column column number of field
      * @return solution or 0
      */
-    public int getValue(int row, int column) {
+    public int getValue(final int row, final int column) {
         if (row < 0 || column < 0) {
             throw new IllegalArgumentException("Matrix index must be greater or equal than 0.");
         }
-        if (row >= dimension || column >= dimension) {
-            throw new IllegalArgumentException("Matrix index must be smaller than " + dimension + ".");
+        if (row >= this.dimension || column >= this.dimension) {
+            throw new IllegalArgumentException("Matrix index must be smaller than "
+                + this.dimension + ".");
         }
-        Field field = matrix[row][column];
+        final Field field = this.matrix[row][column];
         if (field.hasSolution()) {
             return field.getSolution();
         } else {
@@ -134,8 +138,8 @@ public class Matrix {
      * @return List with all solved fields in matrix
      */
     public List<Field> getSolvedFields() {
-        List<Field> solved = new ArrayList<>();
-        Arrays.stream(matrix).forEach(row -> getRowsSolvedFields(row, solved));
+        final List<Field> solved = new ArrayList<>();
+        Arrays.stream(this.matrix).forEach(row -> getRowsSolvedFields(row, solved));
 
         return solved;
     }
@@ -146,10 +150,10 @@ public class Matrix {
      * @param row row of matrix
      * @param solved list with references to solved fields
      */
-    private void getRowsSolvedFields(Field[] row, List<Field> solved) {
+    private void getRowsSolvedFields(final Field[] row, final List<Field> solved) {
         Arrays.stream(row)
-                .filter((field) -> field.hasSolution())
-                .forEach(current -> solved.add(current));
+            .filter((field) -> field.hasSolution())
+            .forEach(current -> solved.add(current));
     }
 
     /**
@@ -158,70 +162,73 @@ public class Matrix {
      * @return dimension
      */
     public int getDimension() {
-        return dimension;
+        return this.dimension;
     }
 
     /**
-     * Constructs a list containing all elements of the given row. This list is ascending ordered by
-     * column index.
+     * Constructs a list containing all elements of the given row.
+     * This list is ascending ordered by column index.
      *
      * @param index row index<br>Range: [0, dimension - 1]
      * @return List with all Fields of row
      */
-    public List<Field> getRow(int index) {
+    public List<Field> getRow(final int index) {
         if (index < 0) {
             throw new IllegalArgumentException("Row index must be greater or equal than 0.");
         }
-        if (index >= dimension) {
-            throw new IllegalArgumentException("Row index must be smaller than " + dimension + ".");
+        if (index >= this.dimension) {
+            throw new IllegalArgumentException("Row index must be smaller than "
+                + this.dimension + ".");
         }
-        return Arrays.asList(matrix[index]);
+        return Arrays.asList(this.matrix[index]);
     }
 
     /**
-     * Constructs a list containing all elements of the given column. This list is ascending ordered
-     * by row index.
+     * Constructs a list containing all elements of the given column.
+     * This list is ascending ordered by row index.
      *
      * @param index column index<br>Range: [0, dimension - 1]
      * @return List with all Fields of column
      */
-    public List<Field> getColumn(int index) {
+    public List<Field> getColumn(final int index) {
         if (index < 0) {
             throw new IllegalArgumentException("Column index must be greater or equal than 0.");
         }
-        if (index >= dimension) {
-            throw new IllegalArgumentException("Column index must be smaller than " + dimension + ".");
+        if (index >= this.dimension) {
+            throw new IllegalArgumentException("Column index must be smaller than "
+                + this.dimension + ".");
         }
 
-        List<Field> column = new ArrayList<>();
-        for (int ii = 0; ii < dimension; ii++) {
-            column.add(matrix[ii][index]);
+        final List<Field> column = new ArrayList<>();
+        for (int ii = 0; ii < this.dimension; ii++) {
+            column.add(this.matrix[ii][index]);
         }
         return column;
     }
 
     /**
-     * Constructs a list containing all elements of the given block. This list is ascending ordered
-     * primary by row index, then by column index.
+     * Constructs a list containing all elements of the given block.
+     * This list is ascending ordered primary by row index, then by column index.
      *
      * @param index block index<br>Range: [0, dimension - 1]
      * @return List with all Fields of block
      */
-    public List<Field> getBlock(int index) {
+    public List<Field> getBlock(final int index) {
         if (index < 0) {
             throw new IllegalArgumentException("Block index must be greater or equal than 0.");
         }
-        if (index >= dimension) {
-            throw new IllegalArgumentException("Block index must be smaller than " + dimension + ".");
+        if (index >= this.dimension) {
+            throw new IllegalArgumentException("Block index must be smaller than "
+                + this.dimension + ".");
         }
 
-        List<Field> block = new ArrayList<>();
+        final List<Field> block = new ArrayList<>();
 
-        int firstBlockRow = (index / numberRowsPerBlock) * numberRowsPerBlock;
-        int firstBlockColumn = (index % numberRowsPerBlock) * numberColumnsPerBlock;
-        for (int ii = 0; ii < numberRowsPerBlock; ii++) {
-            for (int jj = 0; jj < numberColumnsPerBlock; jj++) {
-                block.add(matrix[firstBlockRow + ii][firstBlockColumn + jj]);
+        final int firstBlockRow = (index / this.numberRowsPerBlock) * this.numberRowsPerBlock;
+        final int firstBlockColumn = (index % this.numberRowsPerBlock) * this.numberColumnsPerBlock;
+        for (int ii = 0; ii < this.numberRowsPerBlock; ii++) {
+            for (int jj = 0; jj < this.numberColumnsPerBlock; jj++) {
+                block.add(this.matrix[firstBlockRow + ii][firstBlockColumn + jj]);
             }
         }
         return block;

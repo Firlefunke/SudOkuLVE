@@ -4,14 +4,15 @@ import de.seyfarth.sudokulve.exceptions.NoSolutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Sudoku {
+public final class Sudoku {
 
     private static final Logger LOG = Logger.getLogger("Sudoku");
 
-    public static void main(String[] args) {
-        Matrix matrix;
+    private Sudoku() {
+    }
 
-        matrix = new Matrix(3, 3);
+    public static void main(final String[] args) {
+        final Matrix matrix = new Matrix(3, 3);
 
         matrix.setValue(0, 0, 4);
         matrix.setValue(0, 8, 9);
@@ -48,7 +49,7 @@ public class Sudoku {
         matrix.setValue(8, 3, 3);
         matrix.setValue(8, 6, 6);
         matrix.setValue(8, 8, 5);
-        Solver loeser = new Solver(matrix);
+        final Solver loeser = new Solver(matrix);
         try {
             loeser.fillMatrix();
             loeser.checkSectors();
@@ -56,9 +57,9 @@ public class Sudoku {
             LOG.log(Level.SEVERE, "Für das Sudoku wurde keine Loesung gefunden.", e);
         }
         for (int zeile = 0; zeile < matrix.getDimension(); zeile++) {
-            StringBuilder ergebnis = new StringBuilder();
+            final StringBuilder ergebnis = new StringBuilder();
             for (int spalte = 0; spalte < matrix.getDimension(); spalte++) {
-                int solution = matrix.getValue(zeile, spalte);
+                final int solution = matrix.getValue(zeile, spalte);
                 if (solution != 0) {
                     ergebnis.append(solution);
                 } else {
