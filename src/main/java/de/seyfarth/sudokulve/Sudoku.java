@@ -59,25 +59,25 @@ public final class Sudoku {
         matrix.setValue(8, 3, 3);
         matrix.setValue(8, 6, 6);
         matrix.setValue(8, 8, 5);
-        final Solver loeser = new Solver(matrix);
+        final Solver solver = new Solver(matrix);
         try {
-            loeser.fillMatrix();
-            loeser.checkSectors();
+            solver.fillMatrix();
+            solver.checkSectors();
         } catch (NoSolutionException e) {
-            LOG.log(Level.SEVERE, "Für das Sudoku wurde keine Loesung gefunden.", e);
+            LOG.log(Level.SEVERE, "No solution found.", e);
         }
-        for (int zeile = 0; zeile < matrix.getDimension(); zeile++) {
-            final StringBuilder ergebnis = new StringBuilder();
-            for (int spalte = 0; spalte < matrix.getDimension(); spalte++) {
-                final int solution = matrix.getValue(zeile, spalte);
+        for (int row = 0; row < matrix.getDimension(); row++) {
+            final StringBuilder result = new StringBuilder();
+            for (int column = 0; column < matrix.getDimension(); column++) {
+                final int solution = matrix.getValue(row, column);
                 if (solution != 0) {
-                    ergebnis.append(solution);
+                    result.append(solution);
                 } else {
-                    ergebnis.append(" ");
+                    result.append(" ");
                 }
-                ergebnis.append(" ");
+                result.append(" ");
             }
-            System.out.println(ergebnis.toString());
+            System.out.println(result.toString());
         }
     }
 }
