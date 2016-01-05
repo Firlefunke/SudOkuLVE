@@ -16,8 +16,8 @@ public class Solver {
      * 
      * @param matrix Matrix filled with initial values
      */
-    public Solver(Matrix matrix) {
-        sudoku = matrix;
+    public Solver(final Matrix matrix) {
+        this.sudoku = matrix;
     }
 
     /**
