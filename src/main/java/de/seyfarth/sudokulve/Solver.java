@@ -3,22 +3,41 @@ package de.seyfarth.sudokulve;
 import de.seyfarth.sudokulve.exceptions.NoSolutionException;
 import java.util.List;
 
+/**
+ * Provides algorithms to solve a Sudoku Matrix.
+ */
 public class Solver {
 
     private final Matrix sudoku;
     private List<Field> solvedFields;
 
-    public Solver(final Matrix matrix) {
-        this.sudoku = matrix;
+    /**
+     * Creates a Sudoku solver object for a specific matrix.
+     * 
+     * @param matrix Matrix filled with initial values
+     */
+    public Solver(Matrix matrix) {
+        sudoku = matrix;
     }
 
+    /**
+     * Fills each empty field of the Sudoku matrix with all possible numbers.
+     * This method does not touch fields, that contain any number.
+     */
     public void fillMatrix() {
         this.sudoku.fillEmptyFields();
     }
 
     /**
-     *
-     * @throws NoSolutionException
+     * Cleans up the numbers in the fields of the Sudoku matrix.
+     * Removes for each solved field the number of the field in all other fields of the same row,
+     * the same column, and the same block.
+     * If by deleting a number from a field the field gets a solution, the clean-up is done
+     * for this field to.
+     * If by deleting a number from a field the field gets empty, the NoSolutionException is
+     * thrown.
+     * 
+     * @throws NoSolutionException if a field gets empty
      */
     public void checkSectors() throws NoSolutionException {
         this.solvedFields = this.sudoku.getSolvedFields();
