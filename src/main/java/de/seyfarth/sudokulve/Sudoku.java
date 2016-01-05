@@ -4,6 +4,9 @@ import de.seyfarth.sudokulve.exceptions.NoSolutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The class containing the main method.
+ */
 public final class Sudoku {
 
     private static final Logger LOG = Logger.getLogger("Sudoku");
@@ -11,6 +14,13 @@ public final class Sudoku {
     private Sudoku() {
     }
 
+    /**
+     * The main method. It solves the hard-coded sudoku.
+     * This is used to run the whole program for testing without having to type in a new
+     * Sudioku every time.
+     *
+     * @param args needed parameter for main method, not used
+     */
     public static void main(final String[] args) {
         final Matrix matrix = new Matrix(3, 3);
 
