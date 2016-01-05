@@ -1,6 +1,7 @@
 package de.seyfarth.sudokulve;
 
 import de.seyfarth.sudokulve.exceptions.NoSolutionException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class Solver {
 
     private final Matrix sudoku;
-    private List<Field> solvedFields;
+    private final List<Field> solvedFields;
 
     /**
      * Creates a Sudoku solver object for a specific matrix.
@@ -18,6 +19,7 @@ public class Solver {
      */
     public Solver(final Matrix matrix) {
         this.sudoku = matrix;
+        this.solvedFields = new ArrayList<>();
     }
 
     /**
@@ -33,18 +35,27 @@ public class Solver {
      * Removes for each solved field the number of the field in all other fields of the same row,
      * the same column, and the same block.
      * If by deleting a number from a field the field gets a solution, the clean-up is done
-     * for this field to.
+     * for this field too.
      * If by deleting a number from a field the field gets empty, the NoSolutionException is
      * thrown.
      * 
      * @throws NoSolutionException if a field gets empty
      */
     public void checkSectors() throws NoSolutionException {
-        this.solvedFields = this.sudoku.getSolvedFields();
+        assignSolvedFieldsFromSudoku();
         while (!this.solvedFields.isEmpty()) {
             final Field currentField = this.solvedFields.remove(0);
             deleteFromSectors(currentField);
         }
+    }
+
+    private void assignSolvedFieldsFromSudoku() {
+        this.solvedFields.clear();
+        final List<Field> solved = this.sudoku.getSolvedFields();
+        if (solved == null) {
+            throw new NullPointerException("There are no solved fields.");
+        }
+        this.solvedFields.addAll(solved);
     }
 
     private void deleteFromSectors(final Field currentField) throws NoSolutionException {
